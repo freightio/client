@@ -162,6 +162,14 @@ module.exports = [
     "merges": [
       ""
     ]
+  },
+  {
+    "id": "cordova-plugin-gubnoi-alipay.Alipay",
+    "file": "plugins/cordova-plugin-gubnoi-alipay/www/alipay.js",
+    "pluginId": "cordova-plugin-gubnoi-alipay",
+    "clobbers": [
+      "cordova.plugins.ali"
+    ]
   }
 ];
 module.exports.metadata = 
@@ -175,7 +183,8 @@ module.exports.metadata =
   "cordova-plugin-splashscreen": "5.0.2",
   "cordova-plugin-ionic-webview": "2.3.2",
   "cordova-plugin-ionic-keyboard": "2.1.3",
-  "cordova-plugin-contacts": "3.0.1"
+  "cordova-plugin-contacts": "3.0.1",
+  "cordova-plugin-gubnoi-alipay": "0.0.4"
 };
 // BOTTOM OF METADATA
 });

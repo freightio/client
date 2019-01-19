@@ -5,7 +5,7 @@
  * should not be modified by hand.
  */
 
-package io.ionic.starter;
+package io.freight.client;
 
 public final class R {
   public static final class drawable {
