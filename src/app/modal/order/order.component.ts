@@ -4,12 +4,12 @@ import { Contacts } from '@ionic-native/contacts/ngx';
 import { environment } from '../../../environments/environment';
 import * as grpcWeb from 'grpc-web';
 import { Account } from '../../../sdk/wallet_pb';
+import { Alipay } from '@ionic-native/alipay/ngx';
 import { loginService } from '../../providers/util.service';
 import { WalletsClient } from '../../../sdk/wallet_grpc_web_pb';
 import { OrdersClient } from '../../../sdk/order_grpc_web_pb';
 import { Order, Position, Sender, SignReply, PayInfo, Timestamp } from '../../../sdk/order_pb';
 
-declare let cordova;
 declare var proto;
 
 @Component({
@@ -23,6 +23,7 @@ export class OrderComponent implements OnInit {
   walletsClient = new WalletsClient(environment.apiUrl, null, null);
 
   constructor(
+    private alipay: Alipay,
     private navParams: NavParams,
     private contacts: Contacts,
     private modalController: ModalController,
@@ -122,14 +123,13 @@ export class OrderComponent implements OnInit {
         if (err) {
           alert(err.message)
         } {
-          let payInfo = response.getSigned();
-          alert(payInfo);
-          cordova.plugins.ali.Alipay.pay(payInfo, function success(e) {
+          this.alipay.pay(response.getSigned()).then(result => {
+            console.log(result); // Success
             let payInfo = new PayInfo();
             payInfo.setType('alipay');
-            payInfo.setPayresult(JSON.stringify(success));
+            payInfo.setPayresult(JSON.stringify(result));
             this.saveToDB(payInfo);
-          }, function error(e) {
+          }).catch(error => {
             alert('error:' + JSON.stringify(error));
           });
         }
@@ -157,9 +157,9 @@ export class OrderComponent implements OnInit {
     tsOrder.setTosList([to])
     tsOrder.setType(this.order.type);
     tsOrder.setFee(this.order.fee);
-    let created = new Timestamp();
-    created.setSeconds(this.order.created.seconds);
-    tsOrder.setCreated(created);
+    // let created = new Timestamp();
+    // created.setSeconds(this.order.created.seconds);
+    // tsOrder.setCreated(created);
     tsOrder.setComment(this.order.comment);
     tsOrder.setPayinfo(payInfo);
     this.ordersClient.add(tsOrder, { 'custom-header-1': 'value1' },
