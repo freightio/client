@@ -123,15 +123,13 @@ export class OrderComponent implements OnInit {
           alert(err.message)
         } {
           let payInfo = response.getSigned();
-          cordova.plugins.ali.Alipay.pay(payInfo, (success: any) => {
-            console.log(success);
-            //alert('success:' + JSON.stringify(success));
+          alert(payInfo);
+          cordova.plugins.ali.Alipay.pay(payInfo, function success(e) {
             let payInfo = new PayInfo();
             payInfo.setType('alipay');
             payInfo.setPayresult(JSON.stringify(success));
             this.saveToDB(payInfo);
-          }, (error: any) => {
-            console.log(error);
+          }, function error(e) {
             alert('error:' + JSON.stringify(error));
           });
         }
@@ -166,6 +164,9 @@ export class OrderComponent implements OnInit {
     tsOrder.setPayinfo(payInfo);
     this.ordersClient.add(tsOrder, { 'custom-header-1': 'value1' },
       (err: grpcWeb.Error, response: Order) => {
+        if (err) {
+          alert(err);
+        }
         console.log(err);
         console.log(response);
         this.modalController.dismiss();
