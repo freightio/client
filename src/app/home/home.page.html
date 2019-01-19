@@ -69,8 +69,9 @@
   <ion-toolbar color="success">
     <ion-buttons slot="end">
       <ion-button (click)="beginNow()">现在用车</ion-button>
-      <ion-button>
-        <ion-datetime picker-format="YYYY MMM, DD HH:mm" min="2019-02-05" max="2019-02-08" cancelText="取消" doneText="确定">预约</ion-datetime>
+      <ion-button (click)="picker.open()">预约
+        <ion-datetime #picker picker-format="YYYY MMM, DD HH:mm" min="2019-02-05" max="2019-02-08" cancelText="取消"
+          doneText="确定"></ion-datetime>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>

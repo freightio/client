@@ -32,7 +32,7 @@ export class OrderComponent implements OnInit {
   ngOnInit() {
     let created = new Date();
     created.setMinutes(created.getMinutes() + 5);
-    this.order.created = { 'seconds': created.getTime() / 1000 };
+    this.order.created = { 'seconds': created.getTime() };
     this.order.sender = new proto.backend.Sender();
   }
 
@@ -123,14 +123,14 @@ export class OrderComponent implements OnInit {
           alert(err.message)
         } {
           let payInfo = response.getSigned();
-          cordova.plugins.alipay.payment(payInfo, (success) => {
+          cordova.plugins.ali.Alipay.pay(payInfo, (success: any) => {
             console.log(success);
             //alert('success:' + JSON.stringify(success));
             let payInfo = new PayInfo();
             payInfo.setType('alipay');
             payInfo.setPayresult(JSON.stringify(success));
             this.saveToDB(payInfo);
-          }, (error) => {
+          }, (error: any) => {
             console.log(error);
             alert('error:' + JSON.stringify(error));
           });
@@ -159,7 +159,9 @@ export class OrderComponent implements OnInit {
     tsOrder.setTosList([to])
     tsOrder.setType(this.order.type);
     tsOrder.setFee(this.order.fee);
-    tsOrder.setCreated(this.order.created);
+    let created = new Timestamp();
+    created.setSeconds(this.order.created.seconds);
+    tsOrder.setCreated(created);
     tsOrder.setComment(this.order.comment);
     tsOrder.setPayinfo(payInfo);
     this.ordersClient.add(tsOrder, { 'custom-header-1': 'value1' },
