@@ -123,7 +123,7 @@ export class OrderComponent implements OnInit {
           alert(err.message)
         } {
           let signString = response.getSigned();
-          cordova.plugins.alipay.payment(signString, (success) => {
+          cordova.plugins.ali.Alipay.pay(signString, (success) => {
             console.log(success);
             //alert('success:' + JSON.stringify(success));
             let payInfo = new PayInfo();

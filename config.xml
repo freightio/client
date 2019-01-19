@@ -18,7 +18,7 @@
     <preference name="FadeSplashScreenDuration" value="300" />
     <preference name="SplashShowOnlyFirstTime" value="false" />
     <preference name="SplashScreen" value="screen" />
-    <preference name="SplashScreenDelay" value="3000" />
+    <preference name="SplashScreenDelay" value="2000" />
     <platform name="android">
         <allow-intent href="market:*" />
         <icon density="ldpi" src="resources/android/icon/drawable-ldpi-icon.png" />
@@ -87,9 +87,8 @@
     </plugin>
     <plugin name="cordova-plugin-camera" spec="4.0.3" />
     <plugin name="cordova-plugin-contacts" spec="3.0.1" />
-    <plugin name="cordova-plugin-alipay" spec="https://github.com/ejiyuan/cordova-plugin-alipay.git">
+    <plugin name="cordova-plugin-gubnoi-alipay" spec="https://github.com/jing-zhou/cordova-plugin-alipay">
         <variable name="APP_ID" value="2018111762227213" />
-        <variable name="SANDBOX_MODE" value="false" />
     </plugin>
     <engine name="android" spec="7.1.4" />
 </widget>
