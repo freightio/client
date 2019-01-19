@@ -123,8 +123,10 @@ export class OrderComponent implements OnInit {
         if (err) {
           alert(err.message)
         } {
-          this.alipay.pay(response.getSigned()).then(result => {
-            console.log(result); // Success
+          let signString = response.getSigned();
+          alert(signString);
+          this.alipay.pay(signString).then(result => {
+            alert(result); // Success
             let payInfo = new PayInfo();
             payInfo.setType('alipay');
             payInfo.setPayresult(JSON.stringify(result));
