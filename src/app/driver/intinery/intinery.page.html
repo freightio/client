@@ -1,0 +1,51 @@
+<ion-header>
+  <ion-toolbar color="success">
+    <ion-buttons slot="start">
+      <ion-button href="/driver">
+        <ion-icon name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>
+      行程
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div #map_container class="map_container">
+    <div style="position:absolute; width: 100%;z-index: 9999" id="detail_order">
+      <ion-item-group (click)="hidden()">
+        <ion-item *ngIf="isDisplay">
+          <ion-icon name="time"></ion-icon>
+          {{order.created}}
+          <ion-text slot="end">
+            {{order.type}}
+          </ion-text>
+        </ion-item>
+        <ion-item *ngIf="isDisplay">
+          <ion-text style="width: 20%;">
+            {{order.sender.name}}
+          </ion-text>
+          <ion-label>
+            <h3>{{order.from.name}}</h3>
+            <p>{{order.from.address}}</p>
+            <h3>{{order.to.name}}</h3>
+            <p>{{order.to.address}}</p>
+          </ion-label>
+          <ion-text color="danger">
+            {{order.fee}}元
+          </ion-text>
+        </ion-item>
+        <ion-item *ngIf="isDisplay">
+          备注:{{order.comment}}
+        </ion-item>
+        <ion-item>
+          <ion-icon name="arrow-dropup"></ion-icon>
+        </ion-item>
+      </ion-item-group>
+    </div>
+    <div style="position:absolute;z-index: 9999;bottom:0;width: 100%">
+      <ion-button color="success" (click)="accept()" expand="block">抢 单</ion-button>
+    </div>
+  </div>
+</ion-content>
