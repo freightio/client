@@ -10,6 +10,7 @@ import { WalletsClient } from '../../../sdk/wallet_grpc_web_pb';
 import { OrdersClient } from '../../../sdk/order_grpc_web_pb';
 import { Order, Position, Sender, SignReply, PayInfo, Timestamp } from '../../../sdk/order_pb';
 
+declare let cordova;
 declare var proto;
 
 @Component({
@@ -124,16 +125,29 @@ export class OrderComponent implements OnInit {
           alert(err.message)
         } {
           let signString = response.getSigned();
-          alert(signString);
-          this.alipay.pay(signString).then(result => {
-            alert(result); // Success
+          cordova.plugins.alipay.payment(signString, (success) => {
+            console.log(success);
+            //alert('success:' + JSON.stringify(success));
             let payInfo = new PayInfo();
             payInfo.setType('alipay');
-            payInfo.setPayresult(JSON.stringify(result));
+            payInfo.setPayresult(JSON.stringify(success));
             this.saveToDB(payInfo);
-          }).catch(error => {
+          }, (error) => {
+            console.log(error);
             alert('error:' + JSON.stringify(error));
           });
+
+          // let signString = response.getSigned();
+          // alert(signString);
+          // this.alipay.pay(signString).then(result => {
+          //   alert(result); // Success
+          //   let payInfo = new PayInfo();
+          //   payInfo.setType('alipay');
+          //   payInfo.setPayresult(JSON.stringify(result));
+          //   this.saveToDB(payInfo);
+          // }).catch(error => {
+          //   alert('error:' + JSON.stringify(error));
+          // });
         }
       });
   }
