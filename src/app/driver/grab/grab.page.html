@@ -11,25 +11,25 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content>
   <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
   <!-- <ion-tabs> -->
   <!-- <ion-tab-bar slot="top"> -->
-  <ion-toolbar style="margin-top: -15px;height: 40px;">
+  <!-- <ion-toolbar style="margin-top: -15px;height: 40px;">
     <ion-buttons slot="end">
       <ion-tab-button tab="home">附近</ion-tab-button>
       <ion-tab-button tab="settings">城际</ion-tab-button>
     </ion-buttons>
-  </ion-toolbar>
+  </ion-toolbar> -->
   <!-- </ion-tab-bar> -->
   <!-- <ion-tab tab="home" class="tab-css"> -->
   <ion-card *ngFor="let order of orders" (click)="showUserDetail(order)">
     <ion-item class="activated">
-      <ion-label>{{order.sender?.name}}</ion-label>
-      <ion-icon name="pin" slot="end"></ion-icon>
+      <ion-label>{{order.sender?.name}}</ion-label>     
       <ion-badge color="secondary" slot="end">距您{{order?.annotations?.get('distance')}}公里</ion-badge>
+      <ion-icon name="pin" slot="end"></ion-icon>
     </ion-item>
     <ion-row>
       <ion-col>
