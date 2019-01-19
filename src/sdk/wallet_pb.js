@@ -12,7 +12,6 @@ var goog = jspb;
 var global = Function('return this')();
 
 var user_pb = require('./user_pb.js');
-var google_protobuf_timestamp_pb = require('google-protobuf/google/protobuf/timestamp_pb.js');
 goog.exportSymbol('proto.backend.Account', null, global);
 goog.exportSymbol('proto.backend.AccountList', null, global);
 
@@ -66,7 +65,7 @@ proto.backend.Account.toObject = function(includeInstance, msg) {
     userid: jspb.Message.getFieldWithDefault(msg, 2, ""),
     fee: +jspb.Message.getFieldWithDefault(msg, 3, 0.0),
     orderid: jspb.Message.getFieldWithDefault(msg, 4, ""),
-    created: (f = msg.getCreated()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f),
+    created: jspb.Message.getFieldWithDefault(msg, 5, 0),
     annotationsMap: (f = msg.getAnnotationsMap()) ? f.toObject(includeInstance, undefined) : []
   };
 
@@ -121,8 +120,7 @@ proto.backend.Account.deserializeBinaryFromReader = function(msg, reader) {
       msg.setOrderid(value);
       break;
     case 5:
-      var value = new google_protobuf_timestamp_pb.Timestamp;
-      reader.readMessage(value,google_protobuf_timestamp_pb.Timestamp.deserializeBinaryFromReader);
+      var value = /** @type {number} */ (reader.readInt64());
       msg.setCreated(value);
       break;
     case 6:
@@ -189,11 +187,10 @@ proto.backend.Account.serializeBinaryToWriter = function(message, writer) {
     );
   }
   f = message.getCreated();
-  if (f != null) {
-    writer.writeMessage(
+  if (f !== 0) {
+    writer.writeInt64(
       5,
-      f,
-      google_protobuf_timestamp_pb.Timestamp.serializeBinaryToWriter
+      f
     );
   }
   f = message.getAnnotationsMap(true);
@@ -264,32 +261,17 @@ proto.backend.Account.prototype.setOrderid = function(value) {
 
 
 /**
- * optional google.protobuf.Timestamp created = 5;
- * @return {?proto.google.protobuf.Timestamp}
+ * optional int64 created = 5;
+ * @return {number}
  */
 proto.backend.Account.prototype.getCreated = function() {
-  return /** @type{?proto.google.protobuf.Timestamp} */ (
-    jspb.Message.getWrapperField(this, google_protobuf_timestamp_pb.Timestamp, 5));
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 5, 0));
 };
 
 
-/** @param {?proto.google.protobuf.Timestamp|undefined} value */
+/** @param {number} value */
 proto.backend.Account.prototype.setCreated = function(value) {
-  jspb.Message.setWrapperField(this, 5, value);
-};
-
-
-proto.backend.Account.prototype.clearCreated = function() {
-  this.setCreated(undefined);
-};
-
-
-/**
- * Returns whether this field is set.
- * @return {!boolean}
- */
-proto.backend.Account.prototype.hasCreated = function() {
-  return jspb.Message.getField(this, 5) != null;
+  jspb.Message.setProto3IntField(this, 5, value);
 };
 
 

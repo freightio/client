@@ -16,39 +16,39 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
   <!-- <ion-tabs> -->
-    <!-- <ion-tab-bar slot="top"> -->
-    <ion-toolbar style="margin-top: -15px;height: 40px;">
-      <ion-buttons slot="end">
-        <ion-tab-button tab="home">附近</ion-tab-button>
-        <ion-tab-button tab="settings">城际</ion-tab-button>
-      </ion-buttons>
-    </ion-toolbar>
-    <!-- </ion-tab-bar> -->
-    <!-- <ion-tab tab="home" class="tab-css"> -->
-      <ion-card *ngFor="let order of orders" (click)="showUserDetail(order)">
-        <ion-item class="activated">
-          <ion-label>{{order.sender?.name}}</ion-label>
-          <ion-icon name="pin" slot="end"></ion-icon>
-          <ion-badge color="secondary" slot="end">距您{{order?.annotations?.get('distance')}}公里</ion-badge>
-        </ion-item>
+  <!-- <ion-tab-bar slot="top"> -->
+  <ion-toolbar style="margin-top: -15px;height: 40px;">
+    <ion-buttons slot="end">
+      <ion-tab-button tab="home">附近</ion-tab-button>
+      <ion-tab-button tab="settings">城际</ion-tab-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <!-- </ion-tab-bar> -->
+  <!-- <ion-tab tab="home" class="tab-css"> -->
+  <ion-card *ngFor="let order of orders" (click)="showUserDetail(order)">
+    <ion-item class="activated">
+      <ion-label>{{order.sender?.name}}</ion-label>
+      <ion-icon name="pin" slot="end"></ion-icon>
+      <ion-badge color="secondary" slot="end">距您{{order?.annotations?.get('distance')}}公里</ion-badge>
+    </ion-item>
+    <ion-row>
+      <ion-col>
         <ion-row>
-          <ion-col>
-            <ion-row>
-              <ion-item>
-                <ion-icon name="wifi" slot="start"></ion-icon>
-                <ion-label>{{order.created}</ion-label>
-              </ion-item>
-            </ion-row>
-            <ion-row>起点:{{order.from?.name}}</ion-row>
-            <ion-row>终点:{{order.to?.name}}</ion-row>
-            <ion-row>
-              <h6>需要车型:{{order.type}}</h6>
-            </ion-row>
-          </ion-col>
-          <ion-col text-center align-self-center style="font-size: 20px;color: red;font-weight: bolder">{{order.fee}}元</ion-col>
+          <ion-item>
+            <ion-icon name="wifi" slot="start"></ion-icon>
+            <ion-label>{{order.created | date:'MM/dd H:mm'}}</ion-label>
+          </ion-item>
         </ion-row>
-      </ion-card>
-    <!-- </ion-tab>
+        <ion-row>起点:{{order.from?.name}}</ion-row>
+        <ion-row>终点:{{order.to?.name}}</ion-row>
+        <ion-row>
+          <h6>需要车型:{{order.type}}</h6>
+        </ion-row>
+      </ion-col>
+      <ion-col text-center align-self-center style="font-size: 20px;color: red;font-weight: bolder">{{order.fee}}元</ion-col>
+    </ion-row>
+  </ion-card>
+  <!-- </ion-tab>
     <ion-tab tab="settings" class="tab-css">
       <p>城际订单</p>
     </ion-tab>

@@ -9,8 +9,7 @@ import {
   Sender,
   SignReply,
   User,
-  LabelsEntry,
-  Timestamp} from './order_pb';
+  LabelsEntry} from './order_pb';
 
 export class OrdersClient {
   constructor (hostname: string,

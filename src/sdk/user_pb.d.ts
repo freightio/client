@@ -53,8 +53,8 @@ export class User {
   setPassword(a: string): void;
   getTel(): string;
   setTel(a: string): void;
-  getCreated(): Timestamp;
-  setCreated(a: Timestamp): void;
+  getCreated(): number;
+  setCreated(a: number): void;
   getSign(): string;
   setSign(a: string): void;
   getLabelsList(): User.LabelsEntry[];
@@ -70,7 +70,7 @@ export namespace User {
     Name: string;
     Password: string;
     Tel: string;
-    Created: Timestamp;
+    Created: number;
     Sign: string;
     LabelsList: User.LabelsEntry[];
   }
@@ -140,24 +140,6 @@ export class BoolValue {
 export namespace BoolValue {
   export type AsObject = {
     Value: boolean;
-  }
-}
-
-export class Timestamp {
-  constructor ();
-  getSeconds(): number;
-  setSeconds(a: number): void;
-  getNanos(): number;
-  setNanos(a: number): void;
-  toObject(): Timestamp.AsObject;
-  serializeBinary(): Uint8Array;
-  static deserializeBinary: (bytes: {}) => Timestamp;
-}
-
-export namespace Timestamp {
-  export type AsObject = {
-    Seconds: number;
-    Nanos: number;
   }
 }
 

@@ -4,11 +4,10 @@ import { Contacts } from '@ionic-native/contacts/ngx';
 import { environment } from '../../../environments/environment';
 import * as grpcWeb from 'grpc-web';
 import { Account } from '../../../sdk/wallet_pb';
-import { Alipay } from '@ionic-native/alipay/ngx';
 import { loginService } from '../../providers/util.service';
 import { WalletsClient } from '../../../sdk/wallet_grpc_web_pb';
 import { OrdersClient } from '../../../sdk/order_grpc_web_pb';
-import { Order, Position, Sender, SignReply, PayInfo, Timestamp } from '../../../sdk/order_pb';
+import { Order, Position, Sender, SignReply, PayInfo } from '../../../sdk/order_pb';
 
 declare let cordova;
 declare var proto;
@@ -24,7 +23,6 @@ export class OrderComponent implements OnInit {
   walletsClient = new WalletsClient(environment.apiUrl, null, null);
 
   constructor(
-    private alipay: Alipay,
     private navParams: NavParams,
     private contacts: Contacts,
     private modalController: ModalController,
@@ -34,7 +32,7 @@ export class OrderComponent implements OnInit {
   ngOnInit() {
     let created = new Date();
     created.setMinutes(created.getMinutes() + 5);
-    this.order.created = { 'seconds': created.getTime() };
+    this.order.created = created.getTime();
     this.order.sender = new proto.backend.Sender();
   }
 
@@ -173,9 +171,7 @@ export class OrderComponent implements OnInit {
     tsOrder.setTosList([to])
     tsOrder.setType(this.order.type);
     tsOrder.setFee(this.order.fee);
-    // let created = new Timestamp();
-    // created.setSeconds(this.order.created.seconds);
-    // tsOrder.setCreated(created);
+    tsOrder.setCreated(this.order.created);
     tsOrder.setComment(this.order.comment);
     tsOrder.setPayinfo(payInfo);
     this.ordersClient.add(tsOrder, { 'custom-header-1': 'value1' },

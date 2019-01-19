@@ -5,8 +5,7 @@ import {
   User,
   LabelsEntry,
   UserList,
-  BoolValue,
-  Timestamp} from './user_pb';
+  BoolValue} from './user_pb';
 
 export class UsersClient {
   constructor (hostname: string,

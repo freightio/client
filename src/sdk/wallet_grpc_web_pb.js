@@ -13,8 +13,6 @@ grpc.web = require('grpc-web');
 
 
 var user_pb = require('./user_pb.js')
-
-var google_protobuf_timestamp_pb = require('google-protobuf/google/protobuf/timestamp_pb.js')
 const proto = {};
 proto.backend = require('./wallet_pb.js');
 

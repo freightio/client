@@ -17,7 +17,7 @@
       <ion-item-group (click)="hidden()">
         <ion-item *ngIf="isDisplay">
           <ion-icon name="time"></ion-icon>
-          {{order.created}}
+          {{order.created | date:'MM/dd H:mm'}}
           <ion-text slot="end">
             {{order.type}}
           </ion-text>

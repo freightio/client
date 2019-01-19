@@ -14,8 +14,8 @@ export class Order {
   setSender(a: Sender): void;
   getAnnotationsList(): Order.AnnotationsEntry[];
   setAnnotationsList(a: Order.AnnotationsEntry[]): void;
-  getCreated(): Timestamp;
-  setCreated(a: Timestamp): void;
+  getCreated(): number;
+  setCreated(a: number): void;
   getDriverid(): string;
   setDriverid(a: string): void;
   getStatus(): string;
@@ -38,7 +38,7 @@ export namespace Order {
     Fee: number;
     Sender: Sender;
     AnnotationsList: Order.AnnotationsEntry[];
-    Created: Timestamp;
+    Created: number;
     Driverid: string;
     Status: string;
     Comment: string;
@@ -198,8 +198,8 @@ export class User {
   setPassword(a: string): void;
   getTel(): string;
   setTel(a: string): void;
-  getCreated(): Timestamp;
-  setCreated(a: Timestamp): void;
+  getCreated(): number;
+  setCreated(a: number): void;
   getSign(): string;
   setSign(a: string): void;
   getLabelsList(): User.LabelsEntry[];
@@ -215,7 +215,7 @@ export namespace User {
     Name: string;
     Password: string;
     Tel: string;
-    Created: Timestamp;
+    Created: number;
     Sign: string;
     LabelsList: User.LabelsEntry[];
   }
@@ -255,24 +255,6 @@ export namespace LabelsEntry {
   export type AsObject = {
     Key: string;
     Value: string;
-  }
-}
-
-export class Timestamp {
-  constructor ();
-  getSeconds(): number;
-  setSeconds(a: number): void;
-  getNanos(): number;
-  setNanos(a: number): void;
-  toObject(): Timestamp.AsObject;
-  serializeBinary(): Uint8Array;
-  static deserializeBinary: (bytes: {}) => Timestamp;
-}
-
-export namespace Timestamp {
-  export type AsObject = {
-    Seconds: number;
-    Nanos: number;
   }
 }
 

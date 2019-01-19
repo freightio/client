@@ -4,8 +4,7 @@ import {
   AnnotationsEntry,
   AccountList,
   User,
-  LabelsEntry,
-  Timestamp} from './wallet_pb';
+  LabelsEntry} from './wallet_pb';
 
 export class WalletsClient {
   constructor (hostname: string,
