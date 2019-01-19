@@ -1,8 +1,8 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { ModalController, IonSlides } from '@ionic/angular';
-import { MapComponent } from '../modal/map/map.component';
+import { ModalComponent } from '../modal/map/modal.component';
 import { OrderComponent } from '../modal/order/order.component';
-//import { BarcodeScanner, BarcodeScannerOptions } from '@ionic-native/barcode-scanner/ngx';
+import { BarcodeScanner, BarcodeScannerOptions } from '@ionic-native/barcode-scanner/ngx';
 import { loginService } from '../providers/util.service';
 import { environment } from '../../environments/environment';
 import * as grpcWeb from 'grpc-web';
@@ -33,13 +33,12 @@ export class HomePage implements OnInit {
 
   constructor(
     private modalController: ModalController,
-    //private barcodeScanner: BarcodeScanner
-    ) {
+    private barcodeScanner: BarcodeScanner) {
     this.order = new proto.backend.Order();
   }
 
   ngOnInit() {
-    this.vehiclesClient.list(new proto.google.protobuf.Empty(), {},
+    this.vehiclesClient.list(new Empty(), {},
       (err: grpcWeb.Error, response: VehicleList) => {
         if (err) {
           console.log(err)
@@ -82,7 +81,7 @@ export class HomePage implements OnInit {
 
   async presentFromModal() {
     const modal = await this.modalController.create({
-      component: MapComponent,
+      component: ModalComponent,
       componentProps: { value: 123 }
     });
 
@@ -94,7 +93,7 @@ export class HomePage implements OnInit {
 
   async presentToModal() {
     const modal = await this.modalController.create({
-      component: MapComponent,
+      component: ModalComponent,
       componentProps: { value: 123 }
     });
 
@@ -124,15 +123,15 @@ export class HomePage implements OnInit {
   }
 
   scanQR() {
-    // const options: BarcodeScannerOptions = {
-    //   showTorchButton: true, // iOS and Android
-    // };
-    // this.barcodeScanner.scan(options).then(barcodeData => {
-    //   // console.log('Barcode data', barcodeData);
-    //   alert(barcodeData.text);
-    // }).catch(err => {
-    //   console.log('Error', err);
-    // });
+    const options: BarcodeScannerOptions = {
+      showTorchButton: true, // iOS and Android
+    };
+    this.barcodeScanner.scan(options).then(barcodeData => {
+      // console.log('Barcode data', barcodeData);
+      alert(barcodeData.text);
+    }).catch(err => {
+      console.log('Error', err);
+    });
   }
 
   async beginNow() {

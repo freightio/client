@@ -1,11 +1,11 @@
 import * as grpcWeb from 'grpc-web';
 import {
   Certification,
-  IDRequest,
   User,
   LabelsEntry,
   UserList,
-  BoolValue} from './user_pb';
+  UserRequest,
+  Verified} from './user_pb';
 
 export class UsersClient {
   constructor (hostname: string,
@@ -20,7 +20,7 @@ export class UsersClient {
   ): grpcWeb.ClientReadableStream<User>;
 
   get(
-    request: IDRequest,
+    request: UserRequest,
     metadata: grpcWeb.Metadata,
     callback: (err: grpcWeb.Error,
                response: User) => void
@@ -41,7 +41,7 @@ export class UsersClient {
   ): grpcWeb.ClientReadableStream<UserList>;
 
   delete(
-    request: IDRequest,
+    request: UserRequest,
     metadata: grpcWeb.Metadata,
     callback: (err: grpcWeb.Error,
                response: User) => void
@@ -88,11 +88,11 @@ export class CertificationsClient {
   ): grpcWeb.ClientReadableStream<Certification>;
 
   verify(
-    request: IDRequest,
+    request: UserRequest,
     metadata: grpcWeb.Metadata,
     callback: (err: grpcWeb.Error,
-               response: BoolValue) => void
-  ): grpcWeb.ClientReadableStream<BoolValue>;
+               response: Verified) => void
+  ): grpcWeb.ClientReadableStream<Verified>;
 
 }
 
@@ -107,7 +107,7 @@ export class UsersPromiseClient {
   ): Promise<User>;
 
   get(
-    request: IDRequest,
+    request: UserRequest,
     metadata: grpcWeb.Metadata
   ): Promise<User>;
 
@@ -122,7 +122,7 @@ export class UsersPromiseClient {
   ): Promise<UserList>;
 
   delete(
-    request: IDRequest,
+    request: UserRequest,
     metadata: grpcWeb.Metadata
   ): Promise<User>;
 
@@ -159,9 +159,9 @@ export class CertificationsPromiseClient {
   ): grpcWeb.ClientReadableStream<Certification>;
 
   verify(
-    request: IDRequest,
+    request: UserRequest,
     metadata: grpcWeb.Metadata
-  ): Promise<BoolValue>;
+  ): Promise<Verified>;
 
 }
 

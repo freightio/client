@@ -37,13 +37,6 @@ export class OrdersClient {
                response: Order) => void
   ): grpcWeb.ClientReadableStream<Order>;
 
-  delete(
-    request: OrderRequest,
-    metadata: grpcWeb.Metadata,
-    callback: (err: grpcWeb.Error,
-               response: Order) => void
-  ): grpcWeb.ClientReadableStream<Order>;
-
   listByPositon(
     request: Position,
     metadata: grpcWeb.Metadata
@@ -55,6 +48,13 @@ export class OrdersClient {
     callback: (err: grpcWeb.Error,
                response: OrderList) => void
   ): grpcWeb.ClientReadableStream<OrderList>;
+
+  delete(
+    request: OrderRequest,
+    metadata: grpcWeb.Metadata,
+    callback: (err: grpcWeb.Error,
+               response: Order) => void
+  ): grpcWeb.ClientReadableStream<Order>;
 
   signAlipay(
     request: Order,
@@ -85,11 +85,6 @@ export class OrdersPromiseClient {
     metadata: grpcWeb.Metadata
   ): Promise<Order>;
 
-  delete(
-    request: OrderRequest,
-    metadata: grpcWeb.Metadata
-  ): Promise<Order>;
-
   listByPositon(
     request: Position,
     metadata: grpcWeb.Metadata
@@ -99,6 +94,11 @@ export class OrdersPromiseClient {
     request: User,
     metadata: grpcWeb.Metadata
   ): Promise<OrderList>;
+
+  delete(
+    request: OrderRequest,
+    metadata: grpcWeb.Metadata
+  ): Promise<Order>;
 
   signAlipay(
     request: Order,

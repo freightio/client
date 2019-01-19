@@ -170,6 +170,22 @@ module.exports = [
     "clobbers": [
       "window.StatusBar"
     ]
+  },
+  {
+    "id": "phonegap-plugin-barcodescanner.BarcodeScanner",
+    "file": "plugins/phonegap-plugin-barcodescanner/www/barcodescanner.js",
+    "pluginId": "phonegap-plugin-barcodescanner",
+    "clobbers": [
+      "cordova.plugins.barcodeScanner"
+    ]
+  },
+  {
+    "id": "com.lampa.startapp.startapp",
+    "file": "plugins/com.lampa.startapp/www/startApp.js",
+    "pluginId": "com.lampa.startapp",
+    "merges": [
+      "startApp"
+    ]
   }
 ];
 module.exports.metadata = 
@@ -184,7 +200,9 @@ module.exports.metadata =
   "cordova-plugin-ionic-webview": "2.3.2",
   "cordova-plugin-splashscreen": "5.0.2",
   "cordova-plugin-statusbar": "2.4.2",
-  "cordova-plugin-whitelist": "1.3.3"
+  "cordova-plugin-whitelist": "1.3.3",
+  "phonegap-plugin-barcodescanner": "8.0.1",
+  "com.lampa.startapp": "6.1.6"
 };
 // BOTTOM OF METADATA
 });

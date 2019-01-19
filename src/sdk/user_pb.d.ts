@@ -28,21 +28,6 @@ export namespace Certification {
   }
 }
 
-export class IDRequest {
-  constructor ();
-  getId(): string;
-  setId(a: string): void;
-  toObject(): IDRequest.AsObject;
-  serializeBinary(): Uint8Array;
-  static deserializeBinary: (bytes: {}) => IDRequest;
-}
-
-export namespace IDRequest {
-  export type AsObject = {
-    Id: string;
-  }
-}
-
 export class User {
   constructor ();
   getId(): string;
@@ -128,18 +113,33 @@ export namespace UserList {
   }
 }
 
-export class BoolValue {
+export class UserRequest {
   constructor ();
-  getValue(): boolean;
-  setValue(a: boolean): void;
-  toObject(): BoolValue.AsObject;
+  getId(): string;
+  setId(a: string): void;
+  toObject(): UserRequest.AsObject;
   serializeBinary(): Uint8Array;
-  static deserializeBinary: (bytes: {}) => BoolValue;
+  static deserializeBinary: (bytes: {}) => UserRequest;
 }
 
-export namespace BoolValue {
+export namespace UserRequest {
   export type AsObject = {
-    Value: boolean;
+    Id: string;
+  }
+}
+
+export class Verified {
+  constructor ();
+  getResult(): boolean;
+  setResult(a: boolean): void;
+  toObject(): Verified.AsObject;
+  serializeBinary(): Uint8Array;
+  static deserializeBinary: (bytes: {}) => Verified;
+}
+
+export namespace Verified {
+  export type AsObject = {
+    Result: boolean;
   }
 }
 

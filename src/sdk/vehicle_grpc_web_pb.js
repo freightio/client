@@ -11,8 +11,6 @@
 const grpc = {};
 grpc.web = require('grpc-web');
 
-
-var google_protobuf_empty_pb = require('google-protobuf/google/protobuf/empty_pb.js')
 const proto = {};
 proto.backend = require('./vehicle_pb.js');
 
@@ -77,12 +75,12 @@ proto.backend.VehiclesPromiseClient =
 /**
  * @const
  * @type {!grpc.web.AbstractClientBase.MethodInfo<
- *   !proto.google.protobuf.Empty,
+ *   !proto.backend.Empty,
  *   !proto.backend.VehicleList>}
  */
 const methodInfo_Vehicles_List = new grpc.web.AbstractClientBase.MethodInfo(
   proto.backend.VehicleList,
-  /** @param {!proto.google.protobuf.Empty} request */
+  /** @param {!proto.backend.Empty} request */
   function(request) {
     return request.serializeBinary();
   },
@@ -91,7 +89,7 @@ const methodInfo_Vehicles_List = new grpc.web.AbstractClientBase.MethodInfo(
 
 
 /**
- * @param {!proto.google.protobuf.Empty} request The
+ * @param {!proto.backend.Empty} request The
  *     request proto
  * @param {!Object<string, string>} metadata User defined
  *     call metadata
@@ -112,7 +110,7 @@ proto.backend.VehiclesClient.prototype.list =
 
 
 /**
- * @param {!proto.google.protobuf.Empty} request The
+ * @param {!proto.backend.Empty} request The
  *     request proto
  * @param {!Object<string, string>} metadata User defined
  *     call metadata

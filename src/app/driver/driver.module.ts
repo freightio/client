@@ -6,6 +6,13 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { DriverPage } from './driver.page';
+import {GrabPage} from './grab/grab.page';
+import {OngoingPage} from './ongoing/ongoing.page';
+import {CertificationPage} from './certification/certification.page';
+
+import {GrabPageModule} from './grab/grab.module';
+import {OngoingPageModule} from './ongoing/ongoing.module';
+import {CertificationPageModule} from './certification/certification.module';
 
 const routes: Routes = [
   {
@@ -17,7 +24,8 @@ const routes: Routes = [
         children: [
           {
             path: '',
-            loadChildren: './grab/grab.module#GrabPageModule'
+            //component: GrabPage,
+            loadChildren: './grab/grab.module#GrabPageModule',
           }
         ]
       },
@@ -26,6 +34,7 @@ const routes: Routes = [
         children: [
           {
             path: '',
+            //component:OngoingPage,
             loadChildren: './ongoing/ongoing.module#OngoingPageModule'
           }
         ]
@@ -35,6 +44,7 @@ const routes: Routes = [
         children: [
           {
             path: '',
+            //component:CertificationPage,
             loadChildren: './certification/certification.module#CertificationPageModule'
           }
         ]
@@ -53,7 +63,10 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    //GrabPageModule,
+    //OngoingPageModule,
+    //CertificationPageModule
   ],
   declarations: [DriverPage]
 })

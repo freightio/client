@@ -11,8 +11,6 @@
 const grpc = {};
 grpc.web = require('grpc-web');
 
-
-var google_protobuf_wrappers_pb = require('google-protobuf/google/protobuf/wrappers_pb.js')
 const proto = {};
 proto.backend = require('./user_pb.js');
 
@@ -133,12 +131,12 @@ proto.backend.UsersPromiseClient.prototype.add =
 /**
  * @const
  * @type {!grpc.web.AbstractClientBase.MethodInfo<
- *   !proto.backend.IDRequest,
+ *   !proto.backend.UserRequest,
  *   !proto.backend.User>}
  */
 const methodInfo_Users_Get = new grpc.web.AbstractClientBase.MethodInfo(
   proto.backend.User,
-  /** @param {!proto.backend.IDRequest} request */
+  /** @param {!proto.backend.UserRequest} request */
   function(request) {
     return request.serializeBinary();
   },
@@ -147,7 +145,7 @@ const methodInfo_Users_Get = new grpc.web.AbstractClientBase.MethodInfo(
 
 
 /**
- * @param {!proto.backend.IDRequest} request The
+ * @param {!proto.backend.UserRequest} request The
  *     request proto
  * @param {!Object<string, string>} metadata User defined
  *     call metadata
@@ -168,7 +166,7 @@ proto.backend.UsersClient.prototype.get =
 
 
 /**
- * @param {!proto.backend.IDRequest} request The
+ * @param {!proto.backend.UserRequest} request The
  *     request proto
  * @param {!Object<string, string>} metadata User defined
  *     call metadata
@@ -301,12 +299,12 @@ proto.backend.UsersPromiseClient.prototype.list =
 /**
  * @const
  * @type {!grpc.web.AbstractClientBase.MethodInfo<
- *   !proto.backend.IDRequest,
+ *   !proto.backend.UserRequest,
  *   !proto.backend.User>}
  */
 const methodInfo_Users_Delete = new grpc.web.AbstractClientBase.MethodInfo(
   proto.backend.User,
-  /** @param {!proto.backend.IDRequest} request */
+  /** @param {!proto.backend.UserRequest} request */
   function(request) {
     return request.serializeBinary();
   },
@@ -315,7 +313,7 @@ const methodInfo_Users_Delete = new grpc.web.AbstractClientBase.MethodInfo(
 
 
 /**
- * @param {!proto.backend.IDRequest} request The
+ * @param {!proto.backend.UserRequest} request The
  *     request proto
  * @param {!Object<string, string>} metadata User defined
  *     call metadata
@@ -336,7 +334,7 @@ proto.backend.UsersClient.prototype.delete =
 
 
 /**
- * @param {!proto.backend.IDRequest} request The
+ * @param {!proto.backend.UserRequest} request The
  *     request proto
  * @param {!Object<string, string>} metadata User defined
  *     call metadata
@@ -689,27 +687,27 @@ proto.backend.CertificationsPromiseClient.prototype.list =
 /**
  * @const
  * @type {!grpc.web.AbstractClientBase.MethodInfo<
- *   !proto.backend.IDRequest,
- *   !proto.google.protobuf.BoolValue>}
+ *   !proto.backend.UserRequest,
+ *   !proto.backend.Verified>}
  */
 const methodInfo_Certifications_Verify = new grpc.web.AbstractClientBase.MethodInfo(
-  google_protobuf_wrappers_pb.BoolValue,
-  /** @param {!proto.backend.IDRequest} request */
+  proto.backend.Verified,
+  /** @param {!proto.backend.UserRequest} request */
   function(request) {
     return request.serializeBinary();
   },
-  google_protobuf_wrappers_pb.BoolValue.deserializeBinary
+  proto.backend.Verified.deserializeBinary
 );
 
 
 /**
- * @param {!proto.backend.IDRequest} request The
+ * @param {!proto.backend.UserRequest} request The
  *     request proto
  * @param {!Object<string, string>} metadata User defined
  *     call metadata
- * @param {function(?grpc.web.Error, ?proto.google.protobuf.BoolValue)}
+ * @param {function(?grpc.web.Error, ?proto.backend.Verified)}
  *     callback The callback function(error, response)
- * @return {!grpc.web.ClientReadableStream<!proto.google.protobuf.BoolValue>|undefined}
+ * @return {!grpc.web.ClientReadableStream<!proto.backend.Verified>|undefined}
  *     The XHR Node Readable Stream
  */
 proto.backend.CertificationsClient.prototype.verify =
@@ -724,11 +722,11 @@ proto.backend.CertificationsClient.prototype.verify =
 
 
 /**
- * @param {!proto.backend.IDRequest} request The
+ * @param {!proto.backend.UserRequest} request The
  *     request proto
  * @param {!Object<string, string>} metadata User defined
  *     call metadata
- * @return {!Promise<!proto.google.protobuf.BoolValue>}
+ * @return {!Promise<!proto.backend.Verified>}
  *     The XHR Node Readable Stream
  */
 proto.backend.CertificationsPromiseClient.prototype.verify =
