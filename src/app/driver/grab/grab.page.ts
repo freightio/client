@@ -1,10 +1,8 @@
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
-import { environment } from '../../../environments/environment';
-import { OrdersClient } from '../../../sdk/order_grpc_web_pb';
 import { Position } from '../../../sdk/order_pb';
-import { loginService } from '../../providers/util.service';
+import { loginService, apiService } from '../../providers/util.service';
 
 //declare var proto;
 declare var AMap;
@@ -16,7 +14,6 @@ declare var AMap;
 })
 export class GrabPage implements OnInit {
   orders = [];
-  ordersClient = new OrdersClient(environment.apiUrl, null, null);
 
   constructor(
     private router: Router,
@@ -28,7 +25,7 @@ export class GrabPage implements OnInit {
     this.geolocation.getCurrentPosition().then((resp) => {
       let positon = new Position()
       positon.setLocation(resp.coords.latitude + ',' + resp.coords.longitude);
-      let stream = this.ordersClient.listByPositon(positon, {});
+      let stream = apiService.ordersClient.listByPositon(positon, apiService.metaData);
       stream.on('data', response => {
         this.orders[i] = response.toObject();
         if (response.getSender() != null) {

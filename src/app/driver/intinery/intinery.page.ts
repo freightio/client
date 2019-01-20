@@ -1,11 +1,8 @@
 import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
-import { loginService } from '../../providers/util.service';
+import { loginService, apiService } from '../../providers/util.service';
 import * as grpcWeb from 'grpc-web';
 import { Order } from '../../../sdk/order_pb';
 import { UserRequest, Verified } from '../../../sdk/user_pb';
-import { environment } from '../../../environments/environment';
-import { OrdersClient } from '../../../sdk/order_grpc_web_pb';
-import { CertificationsClient } from '../../../sdk/user_grpc_web_pb';
 
 declare var AMap;
 
@@ -18,8 +15,6 @@ export class IntineryPage implements OnInit {
   @ViewChild('map_container') map_container: ElementRef;
   map: any; // 地图对象
   order = loginService.order;
-  ordersClient = new OrdersClient(environment.apiUrl, null, null);
-  certificationsClient = new CertificationsClient(environment.apiUrl, null, null);
   isDisplay = true;
 
   constructor() { }
@@ -68,14 +63,14 @@ export class IntineryPage implements OnInit {
     }
     let userRequest = new UserRequest();
     userRequest.setId(loginService.getUser().id);
-    this.certificationsClient.verify(userRequest, {}, (err: grpcWeb.Error, verified: Verified) => {
+    apiService.certificationsClient.verify(userRequest, apiService.metaData, (err: grpcWeb.Error, verified: Verified) => {
       if (verified.getResult()) {
         if (window.confirm('确定接单?')) {
           let tsOrder = new Order();
           tsOrder.setId(this.order.id)
           tsOrder.setStatus('accept');
           tsOrder.setDriverid(loginService.getUser().id);
-          this.ordersClient.update(tsOrder, { 'custom-header-1': 'value1' },
+          apiService.ordersClient.update(tsOrder, apiService.metaData,
             (err: grpcWeb.Error, response: Order) => {
               console.log(response);
             });

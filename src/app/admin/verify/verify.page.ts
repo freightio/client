@@ -1,8 +1,7 @@
 import * as grpcWeb from 'grpc-web';
 import { Component, OnInit } from '@angular/core';
 import { Certification } from '../../../sdk/user_pb';
-import { CertificationsClient } from '../../../sdk/user_grpc_web_pb';
-import { environment } from '../../../environments/environment';
+import { apiService } from '../../providers/util.service';
 
 @Component({
   selector: 'app-verify',
@@ -11,7 +10,6 @@ import { environment } from '../../../environments/environment';
 })
 export class VerifyPage implements OnInit {
   certificationsAdmin = [];
-  certificationsClient = new CertificationsClient(environment.apiUrl, null, null);
 
   constructor() { }
 
@@ -19,7 +17,7 @@ export class VerifyPage implements OnInit {
     var j = 0;
     let certAdmin = new Certification();
     certAdmin.setStatus('new');
-    let streamAdmin = this.certificationsClient.list(certAdmin, {});
+    let streamAdmin = apiService.certificationsClient.list(certAdmin, apiService.metaData);
     streamAdmin.on('data', response => {
       this.certificationsAdmin[j] = response.toObject();
       j++;
@@ -31,7 +29,7 @@ export class VerifyPage implements OnInit {
       let tsCertification = new Certification();
       tsCertification.setId(certification.id);
       tsCertification.setStatus('pass');
-      this.certificationsClient.update(tsCertification, {}, (err: grpcWeb.Error, response: Certification) => {
+      apiService.certificationsClient.update(tsCertification, apiService.metaData, (err: grpcWeb.Error, response: Certification) => {
         if (err) {
           alert(JSON.stringify(err));
         } else {

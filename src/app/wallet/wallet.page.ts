@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import * as grpcWeb from 'grpc-web';
 import { Account } from '../../sdk/wallet_pb';
-import { WalletsClient } from '../../sdk/wallet_grpc_web_pb';
-import { environment } from '../../environments/environment';
-import { loginService } from '../providers/util.service';
+import { loginService, apiService } from '../providers/util.service';
 
 @Component({
   selector: 'app-wallet',
@@ -12,7 +10,6 @@ import { loginService } from '../providers/util.service';
 })
 export class WalletPage implements OnInit {
   account: any;
-  walletsClient = new WalletsClient(environment.apiUrl, null, null);
 
   constructor() {
     this.account = {};
@@ -21,7 +18,7 @@ export class WalletPage implements OnInit {
   ngOnInit() {
     let account = new Account();
     account.setUserid(loginService.getUser().id);
-    this.walletsClient.total(account, {}, (err: grpcWeb.Error,
+    apiService.walletsClient.total(account, apiService.metaData, (err: grpcWeb.Error,
       response: Account) => {
       if (err) {
         console.log(err);

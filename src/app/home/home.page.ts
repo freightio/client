@@ -4,10 +4,8 @@ import { ModalComponent } from '../modal/map/modal.component';
 import { OrderComponent } from '../modal/order/order.component';
 //import { BarcodeScanner, BarcodeScannerOptions } from '@ionic-native/barcode-scanner/ngx';
 import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner/ngx';
-import { loginService } from '../providers/util.service';
-import { environment } from '../../environments/environment';
+import { loginService, apiService } from '../providers/util.service';
 import * as grpcWeb from 'grpc-web';
-import { VehiclesClient } from '../../sdk/vehicle_grpc_web_pb';
 import { VehicleList, Empty } from '../../sdk/vehicle_pb';
 
 declare var AMap;
@@ -26,7 +24,6 @@ export class HomePage implements OnInit {
   showRightButton = true;
   to: any;
   order: any;
-  vehiclesClient = new VehiclesClient(environment.apiUrl, null, null);
   sliderConfig = {
     slidesPerView: 4,
     effect: 'flip'
@@ -39,7 +36,7 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
-    this.vehiclesClient.list(new Empty(), {},
+    apiService.vehiclesClient.list(new Empty(), apiService.metaData,
       (err: grpcWeb.Error, response: VehicleList) => {
         if (err) {
           console.log(err)

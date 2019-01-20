@@ -2,12 +2,9 @@ import * as grpcWeb from 'grpc-web';
 import { OrdersClient } from '../../sdk/order_grpc_web_pb';
 import { OrderList, Order } from '../../sdk/order_pb';
 import { User } from '../../sdk/user_pb';
-import { Account } from '../../sdk/wallet_pb';
-import { WalletsClient } from '../../sdk/wallet_grpc_web_pb';
 import { AlertController } from '@ionic/angular';
 import { Component, OnInit } from '@angular/core';
-import { environment } from '../../environments/environment';
-import { loginService } from '../providers/util.service';
+import { loginService, apiService } from '../providers/util.service';
 
 declare var startApp;
 
@@ -19,8 +16,6 @@ declare var startApp;
 export class ListPage implements OnInit {
   orders: any[];
   status = 'accept';
-  ordersClient = new OrdersClient(environment.apiUrl, null, null);
-  walletsClient = new WalletsClient(environment.apiUrl, null, null);
 
   constructor(private alertController: AlertController) {
     this.orders = [];
@@ -33,7 +28,7 @@ export class ListPage implements OnInit {
   load() {
     const tsUser = new User();
     tsUser.setId(loginService.getUser().id);
-    this.ordersClient.listByUser(tsUser, { 'custom-header-1': 'value1' },
+    apiService.ordersClient.listByUser(tsUser, apiService.metaData,
       (err: grpcWeb.Error, response: OrderList) => {
         if (err) {
           console.log(err);

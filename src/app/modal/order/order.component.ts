@@ -1,12 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { NavParams, ActionSheetController, ModalController } from '@ionic/angular';
 import { Contacts } from '@ionic-native/contacts/ngx';
-import { environment } from '../../../environments/environment';
 import * as grpcWeb from 'grpc-web';
 import { Account } from '../../../sdk/wallet_pb';
-import { loginService } from '../../providers/util.service';
-import { WalletsClient } from '../../../sdk/wallet_grpc_web_pb';
-import { OrdersClient } from '../../../sdk/order_grpc_web_pb';
+import { loginService, apiService } from '../../providers/util.service';
 import { Order, Position, Sender, SignReply, PayInfo } from '../../../sdk/order_pb';
 
 declare let cordova;
@@ -19,8 +16,6 @@ declare var proto;
 })
 export class OrderComponent implements OnInit {
   order = this.navParams.get('order');
-  ordersClient = new OrdersClient(environment.apiUrl, null, null);
-  walletsClient = new WalletsClient(environment.apiUrl, null, null);
 
   constructor(
     private navParams: NavParams,
@@ -60,7 +55,7 @@ export class OrderComponent implements OnInit {
             account.setFee(-this.order.fee);
             //account.setOrderid(order.id);
             account.setUserid(loginService.getUser().id);
-            this.walletsClient.add(account, {}, (err: grpcWeb.Error, response: Account) => {
+            apiService.walletsClient.add(account, apiService.metaData, (err: grpcWeb.Error, response: Account) => {
               console.log(response);
               let payInfo = new PayInfo();
               payInfo.setType('walletpay');
@@ -117,7 +112,7 @@ export class OrderComponent implements OnInit {
   goToAlipay() {
     let tsOrder = new Order();
     tsOrder.setFee(this.order.fee);
-    this.ordersClient.signAlipay(tsOrder, { 'custom-header-1': 'value1' },
+    apiService.ordersClient.signAlipay(tsOrder, apiService.metaData,
       (err: grpcWeb.Error, response: SignReply) => {
         if (err) {
           alert(err.message)
@@ -162,7 +157,7 @@ export class OrderComponent implements OnInit {
     tsOrder.setCreated(this.order.created);
     tsOrder.setComment(this.order.comment);
     tsOrder.setPayinfo(payInfo);
-    this.ordersClient.add(tsOrder, { 'custom-header-1': 'value1' },
+    apiService.ordersClient.add(tsOrder, { 'custom-header-1': 'value1' },
       (err: grpcWeb.Error, response: Order) => {
         console.log(err);
         console.log(response);
