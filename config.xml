@@ -91,8 +91,6 @@
         <variable name="APP_ID" value="2018111762227213" />
         <variable name="SANDBOX_MODE" value="false" />
     </plugin>
-    <plugin name="phonegap-plugin-barcodescanner" spec="8.0.1">
-        <variable name="ANDROID_SUPPORT_V4_VERSION" value="27.+" />
-    </plugin>
+    <plugin name="cordova-plugin-qrscanner" spec="2.6.0" />
     <engine name="android" spec="7.1.4" />
 </widget>

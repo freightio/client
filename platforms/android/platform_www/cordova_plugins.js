@@ -1,6 +1,14 @@
 cordova.define('cordova/plugin_list', function(require, exports, module) {
 module.exports = [
   {
+    "id": "com.lampa.startapp.startapp",
+    "file": "plugins/com.lampa.startapp/www/startApp.js",
+    "pluginId": "com.lampa.startapp",
+    "merges": [
+      "startApp"
+    ]
+  },
+  {
     "id": "cordova-plugin-alipay.alipay",
     "file": "plugins/cordova-plugin-alipay/www/alipay.js",
     "pluginId": "cordova-plugin-alipay",
@@ -156,6 +164,14 @@ module.exports = [
     ]
   },
   {
+    "id": "cordova-plugin-qrscanner.QRScanner",
+    "file": "plugins/cordova-plugin-qrscanner/www/www.min.js",
+    "pluginId": "cordova-plugin-qrscanner",
+    "clobbers": [
+      "QRScanner"
+    ]
+  },
+  {
     "id": "cordova-plugin-splashscreen.SplashScreen",
     "file": "plugins/cordova-plugin-splashscreen/www/splashscreen.js",
     "pluginId": "cordova-plugin-splashscreen",
@@ -170,27 +186,12 @@ module.exports = [
     "clobbers": [
       "window.StatusBar"
     ]
-  },
-  {
-    "id": "phonegap-plugin-barcodescanner.BarcodeScanner",
-    "file": "plugins/phonegap-plugin-barcodescanner/www/barcodescanner.js",
-    "pluginId": "phonegap-plugin-barcodescanner",
-    "clobbers": [
-      "cordova.plugins.barcodeScanner"
-    ]
-  },
-  {
-    "id": "com.lampa.startapp.startapp",
-    "file": "plugins/com.lampa.startapp/www/startApp.js",
-    "pluginId": "com.lampa.startapp",
-    "merges": [
-      "startApp"
-    ]
   }
 ];
 module.exports.metadata = 
 // TOP OF METADATA
 {
+  "com.lampa.startapp": "6.1.6",
   "cordova-plugin-alipay": "0.0.1",
   "cordova-plugin-camera": "4.0.3",
   "cordova-plugin-contacts": "3.0.1",
@@ -198,11 +199,10 @@ module.exports.metadata =
   "cordova-plugin-geolocation": "4.0.1",
   "cordova-plugin-ionic-keyboard": "2.1.3",
   "cordova-plugin-ionic-webview": "2.3.2",
+  "cordova-plugin-qrscanner": "2.6.0",
   "cordova-plugin-splashscreen": "5.0.2",
   "cordova-plugin-statusbar": "2.4.2",
-  "cordova-plugin-whitelist": "1.3.3",
-  "phonegap-plugin-barcodescanner": "8.0.1",
-  "com.lampa.startapp": "6.1.6"
+  "cordova-plugin-whitelist": "1.3.3"
 };
 // BOTTOM OF METADATA
 });

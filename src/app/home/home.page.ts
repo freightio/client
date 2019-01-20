@@ -2,7 +2,8 @@ import { Component, ViewChild, OnInit } from '@angular/core';
 import { ModalController, IonSlides } from '@ionic/angular';
 import { ModalComponent } from '../modal/map/modal.component';
 import { OrderComponent } from '../modal/order/order.component';
-import { BarcodeScanner, BarcodeScannerOptions } from '@ionic-native/barcode-scanner/ngx';
+//import { BarcodeScanner, BarcodeScannerOptions } from '@ionic-native/barcode-scanner/ngx';
+import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner/ngx';
 import { loginService } from '../providers/util.service';
 import { environment } from '../../environments/environment';
 import * as grpcWeb from 'grpc-web';
@@ -33,7 +34,7 @@ export class HomePage implements OnInit {
 
   constructor(
     private modalController: ModalController,
-    private barcodeScanner: BarcodeScanner) {
+    private qrScanner: QRScanner) {
     this.order = new proto.backend.Order();
   }
 
@@ -123,15 +124,28 @@ export class HomePage implements OnInit {
   }
 
   scanQR() {
-    const options: BarcodeScannerOptions = {
-      showTorchButton: true, // iOS and Android
-    };
-    this.barcodeScanner.scan(options).then(barcodeData => {
-      // console.log('Barcode data', barcodeData);
-      alert(barcodeData.text);
-    }).catch(err => {
-      console.log('Error', err);
-    });
+    this.qrScanner.prepare()
+      .then((status: QRScannerStatus) => {
+        if (status.authorized) {
+          // camera permission was granted
+
+          // start scanning
+          let scanSub = this.qrScanner.scan().subscribe((text: string) => {
+            console.log('Scanned something', text);
+            alert(text);
+            this.qrScanner.hide(); // hide camera preview
+            scanSub.unsubscribe(); // stop scanning
+          });
+
+        } else if (status.denied) {
+          // camera permission was permanently denied
+          // you must use QRScanner.openSettings() method to guide the user to the settings page
+          // then they can grant the permission from there
+        } else {
+          // permission was denied, but not permanently. You can ask for permission again at a later time.
+        }
+      })
+      .catch((e: any) => console.log('Error is', e));
   }
 
   async beginNow() {
