@@ -128,14 +128,17 @@ export class HomePage implements OnInit {
       .then((status: QRScannerStatus) => {
         if (status.authorized) {
           // camera permission was granted
-          window.document.querySelector('ion-app').classList.add('transparentBody');
+          alert("camera permission was granted");
+          (window.document.querySelector('ion-app') as HTMLElement).classList.add('transparentBody');
+          // window.document.querySelector('ion-app').classList.add('transparentBody');
           // start scanning
           let scanSub = this.qrScanner.scan().subscribe((text: string) => {
             console.log('Scanned something', text);
             alert(text);
             this.qrScanner.hide(); // hide camera preview
             scanSub.unsubscribe(); // stop scanning
-            window.document.querySelector('ion-app').classList.remove('transparentBody')
+            (window.document.querySelector('ion-app') as HTMLElement).classList.remove('transparentBody');
+            //window.document.querySelector('ion-app').classList.remove('transparentBody')
           });
 
         } else if (status.denied) {
