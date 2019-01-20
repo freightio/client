@@ -18,7 +18,7 @@ declare var startApp;
 })
 export class ListPage implements OnInit {
   orders: any[];
-  status: string;
+  status = 'accept';
   ordersClient = new OrdersClient(environment.apiUrl, null, null);
   walletsClient = new WalletsClient(environment.apiUrl, null, null);
 
@@ -26,7 +26,9 @@ export class ListPage implements OnInit {
     this.orders = [];
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.load()
+  }
 
   load() {
     const tsUser = new User();
@@ -37,7 +39,6 @@ export class ListPage implements OnInit {
           console.log(err);
         } else {
           for (var i in response.getItemsList()) {
-            console.log(i, response.getItemsList()[i])
             let tsOrder = response.getItemsList()[i]
             this.orders[i] = tsOrder.toObject();
             if (tsOrder.getSender() != null) {
@@ -88,7 +89,7 @@ export class ListPage implements OnInit {
               }
             );
             gaodeApp.start(function () {
-              // alert('gaode ok')
+              // alert('amap ok')
             }, function (error) {
               window.alert(error)
             })

@@ -16,8 +16,9 @@ declare var proto;
 export class SignupPage implements OnInit {
   user: any;
   userClient = new UsersClient(environment.apiUrl, null, null);
+
   constructor(private router: Router) {
-    const tsUser = new User();
+    //const tsUser = new User();
     this.user = new proto.backend.User();
   }
 
@@ -29,6 +30,10 @@ export class SignupPage implements OnInit {
   }
 
   signup() {
+    if (!this.user.tel) {
+      alert('请输入电话！');
+      return
+    }
     const tsUser = new User();
     tsUser.setName(this.user.name);
     tsUser.setTel(this.user.tel);
