@@ -126,7 +126,7 @@ export class HomePage implements OnInit {
         if (status.authorized) {
           // camera permission was granted
           alert("camera permission was granted");
-          (window.document.querySelector('ion-app') as HTMLElement).classList.add('transparentBody');
+          // (window.document.querySelector('ion-app') as HTMLElement).classList.add('transparentBody');
           // window.document.querySelector('ion-app').classList.add('transparentBody');
           // start scanning
           let scanSub = this.qrScanner.scan().subscribe((text: string) => {
@@ -134,7 +134,7 @@ export class HomePage implements OnInit {
             alert(text);
             this.qrScanner.hide(); // hide camera preview
             scanSub.unsubscribe(); // stop scanning
-            (window.document.querySelector('ion-app') as HTMLElement).classList.remove('transparentBody');
+            // (window.document.querySelector('ion-app') as HTMLElement).classList.remove('transparentBody');
             //window.document.querySelector('ion-app').classList.remove('transparentBody')
           });
 
@@ -148,7 +148,7 @@ export class HomePage implements OnInit {
       })
       .catch((e: any) => {
         console.log('Error is', e);
-        window.document.querySelector('ion-app').classList.remove('transparentBody')
+        //window.document.querySelector('ion-app').classList.remove('transparentBody')
       });
   }
 
