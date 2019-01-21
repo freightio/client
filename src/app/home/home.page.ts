@@ -138,6 +138,7 @@ export class HomePage implements OnInit {
             //window.document.querySelector('ion-app').classList.remove('transparentBody')
           });
 
+          this.qrScanner.show();
         } else if (status.denied) {
           // camera permission was permanently denied
           // you must use QRScanner.openSettings() method to guide the user to the settings page
