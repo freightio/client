@@ -35,7 +35,7 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
-    apiService.vehiclesClient.list(new Empty(), apiService.metaData,
+    apiService.vehiclesClient.list(new proto.google.protobuf.Empty(), apiService.metaData,
       (err: grpcWeb.Error, response: VehicleList) => {
         if (err) {
           console.log(err)
