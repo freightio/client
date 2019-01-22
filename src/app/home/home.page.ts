@@ -1,9 +1,8 @@
+import { Router } from '@angular/router';
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { ModalController, IonSlides } from '@ionic/angular';
 import { ModalComponent } from '../modal/map/modal.component';
 import { OrderComponent } from '../modal/order/order.component';
-//import { BarcodeScanner, BarcodeScannerOptions } from '@ionic-native/barcode-scanner/ngx';
-import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner/ngx';
 import { loginService, apiService } from '../providers/util.service';
 import * as grpcWeb from 'grpc-web';
 import { VehicleList, Empty } from '../../sdk/vehicle_pb';
@@ -31,7 +30,7 @@ export class HomePage implements OnInit {
 
   constructor(
     private modalController: ModalController,
-    private qrScanner: QRScanner) {
+    private router: Router) {
     this.order = new proto.backend.Order();
   }
 
@@ -121,24 +120,7 @@ export class HomePage implements OnInit {
   }
 
   scanQR() {
-    this.qrScanner.prepare()
-      .then((status: QRScannerStatus) => {
-        if (status.authorized) {
-          let scanSub = this.qrScanner.scan().subscribe((text: string) => {
-            console.log('Scanned something', text);
-            alert(text);
-            this.qrScanner.hide(); // hide camera preview
-            scanSub.unsubscribe(); // stop scanning
-          });
-
-          this.qrScanner.show();
-          this.qrScanner.enableLight();
-        } else {
-          alert("请允许访问摄像头!");
-        }
-      }).catch((e: any) => {
-        console.log('Error is', e);
-      });
+    this.router.navigateByUrl('/scan');
   }
 
   async beginNow() {

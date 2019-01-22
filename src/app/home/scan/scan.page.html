@@ -1,0 +1,18 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>scan</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding style="background: none transparent">
+  <div class="qrscanner-area"></div>
+  <div class="through-line"></div>
+  <div class="button-bottom">
+    <button (click)="toggleLight()" ion-fab class="icon-camera" margin-right>
+      <ion-icon name="flash"></ion-icon>
+    </button>
+    <button (click)="toggleCamera()" ion-fab class="icon-camera">
+      <ion-icon name="reverse-camera"></ion-icon>
+    </button>
+  </div>
+</ion-content>

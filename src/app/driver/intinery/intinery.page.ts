@@ -2,7 +2,7 @@ import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { loginService, apiService } from '../../providers/util.service';
 import * as grpcWeb from 'grpc-web';
 import { Order } from '../../../sdk/order_pb';
-import { UserRequest, Verified } from '../../../sdk/user_pb';
+import { IDRequest, BoolValue } from '../../../sdk/user_pb';
 
 declare var AMap;
 
@@ -61,10 +61,10 @@ export class IntineryPage implements OnInit {
       alert('请登录!')
       return;
     }
-    let userRequest = new UserRequest();
-    userRequest.setId(loginService.getUser().id);
-    apiService.certificationsClient.verify(userRequest, apiService.metaData, (err: grpcWeb.Error, verified: Verified) => {
-      if (verified.getResult()) {
+    let idRequest = new IDRequest();
+    idRequest.setId(loginService.getUser().id);
+    apiService.certificationsClient.verify(idRequest, apiService.metaData, (err: grpcWeb.Error, verified: BoolValue) => {
+      if (verified.getValue()) {
         if (window.confirm('确定接单?')) {
           let tsOrder = new Order();
           tsOrder.setId(this.order.id)

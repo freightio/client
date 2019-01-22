@@ -12,6 +12,7 @@ const routes: Routes = [
   { path: 'intinery', loadChildren: './driver/intinery/intinery.module#IntineryPageModule' },
   { path: 'driver', loadChildren: './driver/driver.module#DriverPageModule' },
   { path: 'verify', loadChildren: './admin/verify/verify.module#VerifyPageModule' },
+  { path: 'scan', loadChildren: './home/scan/scan.module#ScanPageModule' },
 ];
 
 @NgModule({
