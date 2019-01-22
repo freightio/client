@@ -11,9 +11,6 @@ const routes: Routes = [
   { path: 'signup', loadChildren: './user/signup/signup.module#SignupPageModule' },
   { path: 'intinery', loadChildren: './driver/intinery/intinery.module#IntineryPageModule' },
   { path: 'driver', loadChildren: './driver/driver.module#DriverPageModule' },
-  // { path: 'ongoing', loadChildren: './driver/ongoing/ongoing.module#OngoingPageModule' },
-  // { path: 'grab', loadChildren: './driver/grab/grab.module#GrabPageModule' },
-  // { path: 'certification', loadChildren: './driver/certification/certification.module#CertificationPageModule' },
   { path: 'verify', loadChildren: './admin/verify/verify.module#VerifyPageModule' },
 ];
 

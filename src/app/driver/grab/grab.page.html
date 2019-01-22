@@ -12,22 +12,22 @@
 </ion-header>
 
 <ion-content>
+  <ion-toolbar class="tab-css">
+    <ion-segment slot="end" style="width:160px">
+      <ion-segment-button value="segment1">
+        附近
+      </ion-segment-button>
+      <ion-segment-button value="segment2">
+        城际
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
   <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  <!-- <ion-tabs> -->
-  <!-- <ion-tab-bar slot="top"> -->
-  <!-- <ion-toolbar style="margin-top: -15px;height: 40px;">
-    <ion-buttons slot="end">
-      <ion-tab-button tab="home">附近</ion-tab-button>
-      <ion-tab-button tab="settings">城际</ion-tab-button>
-    </ion-buttons>
-  </ion-toolbar> -->
-  <!-- </ion-tab-bar> -->
-  <!-- <ion-tab tab="home" class="tab-css"> -->
   <ion-card *ngFor="let order of orders" (click)="showUserDetail(order)">
     <ion-item class="activated">
-      <ion-label>{{order.sender?.name}}</ion-label>     
+      <ion-label>{{order.sender?.name}}</ion-label>
       <ion-badge color="secondary" slot="end">距您{{order?.annotations?.get('distance')}}公里</ion-badge>
       <ion-icon name="pin" slot="end"></ion-icon>
     </ion-item>
@@ -48,9 +48,4 @@
       <ion-col text-center align-self-center style="font-size: 20px;color: red;font-weight: bolder">{{order.fee}}元</ion-col>
     </ion-row>
   </ion-card>
-  <!-- </ion-tab>
-    <ion-tab tab="settings" class="tab-css">
-      <p>城际订单</p>
-    </ion-tab>
-  </ion-tabs> -->
 </ion-content>
