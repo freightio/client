@@ -38,7 +38,7 @@ export class HomePage implements OnInit {
     apiService.vehiclesClient.list(new proto.google.protobuf.Empty(), apiService.metaData,
       (err: grpcWeb.Error, response: VehicleList) => {
         if (err) {
-          console.log(err)
+          console.log(err);
           this.ngOnInit();
         }
         for (var i in response.getItemsList()) {
@@ -48,7 +48,7 @@ export class HomePage implements OnInit {
         }
         this.currentVehicle = this.vehicles[0];
         this.order.type = this.currentVehicle.name;
-      })
+      });
   }
   // Method executed when the slides are changed
   public slideChanged(): void {
