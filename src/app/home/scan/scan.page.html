@@ -1,18 +1,23 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>scan</ion-title>
+  <ion-toolbar color="success">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      扫描中...
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding style="background: none transparent">
+<ion-content padding style="background: none transparent;">
   <div class="qrscanner-area"></div>
   <div class="through-line"></div>
   <div class="button-bottom">
-    <button (click)="toggleLight()" ion-fab class="icon-camera" margin-right>
+    <ion-fab-button (click)="toggleLight()" color="success" class="icon-camera">
       <ion-icon name="flash"></ion-icon>
-    </button>
-    <button (click)="toggleCamera()" ion-fab class="icon-camera">
+    </ion-fab-button>
+    <ion-fab-button (click)="toggleCamera()" color="success" class="icon-camera">
       <ion-icon name="reverse-camera"></ion-icon>
-    </button>
+    </ion-fab-button>
   </div>
 </ion-content>

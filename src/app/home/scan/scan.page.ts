@@ -30,7 +30,6 @@ export class ScanPage implements OnInit {
           });
 
           this.qrScanner.show();
-          this.qrScanner.enableLight();
         } else {
           alert("请允许访问摄像头!");
         }
