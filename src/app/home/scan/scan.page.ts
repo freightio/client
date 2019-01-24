@@ -29,7 +29,7 @@ export class ScanPage implements OnInit {
             this.router.navigateByUrl('/home');
           });
 
-          this.qrScanner.show();
+          //this.qrScanner.show();
         } else {
           alert("请允许访问摄像头!");
         }
@@ -59,5 +59,9 @@ export class ScanPage implements OnInit {
         this.qrScanner.useBackCamera();
       }
     });
+  }
+
+  ionViewDidLeave() {
+    this.qrScanner.destroy();
   }
 }

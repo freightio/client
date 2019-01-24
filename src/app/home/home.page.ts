@@ -5,7 +5,8 @@ import { ModalComponent } from '../modal/map/modal.component';
 import { OrderComponent } from '../modal/order/order.component';
 import { loginService, apiService } from '../providers/util.service';
 import * as grpcWeb from 'grpc-web';
-import { VehicleList, Empty } from '../../sdk/vehicle_pb';
+import { VehicleList } from '../../sdk/vehicle_pb';
+import { Empty } from "google-protobuf/google/protobuf/empty_pb";
 
 declare var AMap;
 declare var proto;
@@ -35,7 +36,7 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
-    apiService.vehiclesClient.list(new proto.google.protobuf.Empty(), apiService.metaData,
+    apiService.vehiclesClient.list(new Empty(), apiService.metaData,
       (err: grpcWeb.Error, response: VehicleList) => {
         if (err) {
           console.log(err);
