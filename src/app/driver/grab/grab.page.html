@@ -12,20 +12,16 @@
 </ion-header>
 
 <ion-content>
-  <!-- <ion-toolbar class="tab-css">
-    <ion-segment slot="end" style="width:160px">
-      <ion-segment-button value="segment1">
+  <ion-toolbar>
+    <ion-segment slot="end">
+      <ion-segment-button value="nearby" checked>
         附近
       </ion-segment-button>
-      <ion-segment-button value="segment2">
+      <ion-segment-button value="city">
         城际
       </ion-segment-button>
     </ion-segment>
-  </ion-toolbar> -->
-  <ion-item>
-    <ion-badge color="success" slot="end">附近</ion-badge>
-    <ion-badge color="success" slot="end">城际</ion-badge>
-  </ion-item>
+  </ion-toolbar>
   <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>

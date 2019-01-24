@@ -1,14 +1,9 @@
-.tab-css {
-    // display: block;
-    // overflow-y: auto;
-    // padding-top: 15px;
-    margin-top: -15px;
-    height: 40px;
-    -webkit-justify-content: right !important;
-    justify-content: right !important;
+ion-segment {
+    width: auto;
+    height: 20px;
 }
 
-.tabs {
-    -webkit-justify-content: right !important;
-    justify-content: right !important;
-}    
+ion-segment-button {
+    padding: 0px;
+    margin: 0px;
+}
