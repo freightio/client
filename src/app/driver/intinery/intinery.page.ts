@@ -2,7 +2,8 @@ import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { loginService, apiService } from '../../providers/util.service';
 import * as grpcWeb from 'grpc-web';
 import { Order } from '../../../sdk/order_pb';
-import { IDRequest, BoolValue } from '../../../sdk/user_pb';
+import { IDRequest } from '../../../sdk/user_pb';
+import { BoolValue } from 'google-protobuf/google/protobuf/wrappers_pb';
 
 declare var AMap;
 

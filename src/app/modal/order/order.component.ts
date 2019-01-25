@@ -5,6 +5,7 @@ import * as grpcWeb from 'grpc-web';
 import { Account } from '../../../sdk/wallet_pb';
 import { loginService, apiService } from '../../providers/util.service';
 import { Order, Position, Sender, SignReply, PayInfo } from '../../../sdk/order_pb';
+import {Timestamp} from 'google-protobuf/google/protobuf/timestamp_pb';
 
 declare let cordova;
 declare var proto;
@@ -154,7 +155,9 @@ export class OrderComponent implements OnInit {
     tsOrder.setTosList([to])
     tsOrder.setType(this.order.type);
     tsOrder.setFee(this.order.fee);
-    tsOrder.setCreated(this.order.created);
+    let tt=new Timestamp();
+    tt.fromDate(this.order.created);
+    tsOrder.setCreated(tt);
     tsOrder.setComment(this.order.comment);
     tsOrder.setPayinfo(payInfo);
     apiService.ordersClient.add(tsOrder, { 'custom-header-1': 'value1' },

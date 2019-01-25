@@ -37,6 +37,7 @@ export class GrabPage implements OnInit {
         if (response.getTosList()[0] != null) {
           this.orders[i].to = response.getTosList()[0].toObject();
         }
+        this.orders[i].created = response.getCreated().toDate();
         this.orders[i].fee = response.getFee().toFixed(2);
         this.loadDistance(this.orders[i]);
         i++;
