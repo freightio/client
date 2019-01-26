@@ -33,15 +33,8 @@ export class OngoingPage implements OnInit {
           console.log(err);
         } else {
           for (var i in response.getItemsList()) {
-            console.log(i, response.getItemsList()[i])
             let tsOrder = response.getItemsList()[i]
             this.orders[i] = tsOrder.toObject();
-            if (tsOrder.getSender() != null) {
-              this.orders[i].sender = tsOrder.getSender().toObject();
-            }
-            if (tsOrder.getFrom() != null) {
-              this.orders[i].from = tsOrder.getFrom().toObject();
-            }
             if (tsOrder.getTosList()[0] != null) {
               this.orders[i].to = tsOrder.getTosList()[0].toObject();
             }

@@ -34,12 +34,6 @@ export class GrabPage implements OnInit {
       let stream = apiService.ordersClient.listByPositon(positon, apiService.metaData);
       stream.on('data', response => {
         this.orders[i] = response.toObject();
-        if (response.getSender() != null) {
-          this.orders[i].sender = response.getSender().toObject();
-        }
-        if (response.getFrom() != null) {
-          this.orders[i].from = response.getFrom().toObject();
-        }
         if (response.getTosList()[0] != null) {
           this.orders[i].to = response.getTosList()[0].toObject();
         }

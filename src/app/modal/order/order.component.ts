@@ -78,25 +78,6 @@ export class OrderComponent implements OnInit {
         handler: () => {
           console.log('Play clicked');
           alert('即将支持!');
-          // var ordersClient = new proto.backend.OrdersClient(environment.apiUrl);
-          // var order = new proto.backend.Order();
-          // order.setName('张三');
-          // order.setFrom('天安门');
-          // order.setType("小面包车");
-          // var metadata = { 'custom-header-1': 'value1' };
-          // var call = ordersClient.add(order, metadata, function (err, response) {
-          //   if (err) {
-          //     console.log(err.code);
-          //     console.log(err.message);
-          //   } else {
-          //     console.log(response);
-          //   }
-          // });
-          // call.on('status', function (status) {
-          //   console.log(status.code);
-          //   console.log(status.details);
-          //   console.log(status.metadata);
-          // });
         }
       }, {
         text: '取消',
@@ -136,23 +117,21 @@ export class OrderComponent implements OnInit {
 
   saveToDB(payInfo: PayInfo) {
     const tsOrder = new Order();
-    let sender = new Sender()
-    sender.setId(loginService.getUser().id);
-    sender.setName(this.order.sender.name);
-    sender.setTel(this.order.sender.tel);
-    tsOrder.setSender(sender);
+    tsOrder.setSender(new Sender());
+    tsOrder.getSender().setId(loginService.getUser().id);
+    tsOrder.getSender().setName(this.order.sender.name);
+    tsOrder.getSender().setTel(this.order.sender.tel);
 
-    let from = new Position();
-    from.setName(this.order.from.name);
-    from.setLocation(this.order.from.location);
-    from.setAddress(this.order.from.address);
-    tsOrder.setFrom(from);
+    tsOrder.setFrom(new Position());
+    tsOrder.getFrom().setName(this.order.from.name);
+    tsOrder.getFrom().setLocation(this.order.from.location);
+    tsOrder.getFrom().setAddress(this.order.from.address);
 
-    let to = new Position();
-    to.setName(this.order.tos[0].name);
-    to.setLocation(this.order.tos[0].location);
-    to.setAddress(this.order.tos[0].address);
-    tsOrder.setTosList([to])
+    tsOrder.setTosList([new Position()])
+    tsOrder.getTosList()[0].setName(this.order.tos[0].name);
+    tsOrder.getTosList()[0].setLocation(this.order.tos[0].location);
+    tsOrder.getTosList()[0].setAddress(this.order.tos[0].address);
+
     tsOrder.setType(this.order.type);
     tsOrder.setFee(this.order.fee);
 
@@ -162,7 +141,9 @@ export class OrderComponent implements OnInit {
     tsOrder.setPayinfo(payInfo);
     apiService.ordersClient.add(tsOrder, apiService.metaData,
       (err: grpcWeb.Error, response: Order) => {
-        console.log(err);
+        if (err) {
+          alert(err.message);
+        }
         console.log(response);
         this.modalController.dismiss();
       });

@@ -1,6 +1,5 @@
 import * as grpcWeb from 'grpc-web';
-import { OrdersClient } from '../../sdk/order_grpc_web_pb';
-import { OrderList, Order } from '../../sdk/order_pb';
+import { OrderList } from '../../sdk/order_pb';
 import { User } from '../../sdk/user_pb';
 import { AlertController } from '@ionic/angular';
 import { Component, OnInit } from '@angular/core';
@@ -36,12 +35,6 @@ export class ListPage implements OnInit {
           for (var i in response.getItemsList()) {
             let tsOrder = response.getItemsList()[i]
             this.orders[i] = tsOrder.toObject();
-            if (tsOrder.getSender() != null) {
-              this.orders[i].sender = tsOrder.getSender().toObject();
-            }
-            if (tsOrder.getFrom() != null) {
-              this.orders[i].from = tsOrder.getFrom().toObject();
-            }
             if (tsOrder.getTosList()[0] != null) {
               this.orders[i].to = tsOrder.getTosList()[0].toObject();
             }

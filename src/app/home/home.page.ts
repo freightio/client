@@ -5,11 +5,12 @@ import { ModalComponent } from '../modal/map/modal.component';
 import { OrderComponent } from '../modal/order/order.component';
 import { loginService, apiService } from '../providers/util.service';
 import * as grpcWeb from 'grpc-web';
+import { Order } from '../../sdk/order_pb';
 import { VehicleList } from '../../sdk/vehicle_pb';
 import { Empty } from "google-protobuf/google/protobuf/empty_pb";
 
 declare var AMap;
-declare var proto;
+//declare var proto;
 
 @Component({
   selector: 'app-home',
@@ -30,9 +31,9 @@ export class HomePage implements OnInit {
   };
 
   constructor(
-    private modalController: ModalController,
-    private router: Router) {
-    this.order = new proto.backend.Order();
+    private router: Router,
+    private modalController: ModalController) {
+    this.order = new Order().toObject();
   }
 
   ngOnInit() {
@@ -44,7 +45,6 @@ export class HomePage implements OnInit {
         }
         for (var i in response.getItemsList()) {
           let tsVehicle = response.getItemsList()[i]
-          console.log(tsVehicle.toObject());
           this.vehicles[i] = tsVehicle.toObject();
         }
         this.currentVehicle = this.vehicles[0];
