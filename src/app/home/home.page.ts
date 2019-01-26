@@ -125,12 +125,13 @@ export class HomePage implements OnInit {
   }
 
   async beginNow() {
-    if (!this.order.from || !this.order.tos) {
-      alert('订单起点与终点不能为空!');
+    if (!loginService.getUser().id) {
+      alert('请登录!');
       return
     }
 
-    if (!loginService.getUser().id) {
+    if (!this.order.from || !this.order.tos) {
+      alert('订单起点与终点不能为空!');
       return
     }
 

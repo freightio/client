@@ -5,10 +5,10 @@ import * as grpcWeb from 'grpc-web';
 import { Account } from '../../../sdk/wallet_pb';
 import { loginService, apiService } from '../../providers/util.service';
 import { Order, Position, Sender, SignReply, PayInfo } from '../../../sdk/order_pb';
-import {Timestamp} from 'google-protobuf/google/protobuf/timestamp_pb';
+import { Timestamp } from 'google-protobuf/google/protobuf/timestamp_pb';
 
 declare let cordova;
-declare var proto;
+//declare var proto;
 
 @Component({
   selector: 'app-order',
@@ -28,8 +28,8 @@ export class OrderComponent implements OnInit {
   ngOnInit() {
     let created = new Date();
     created.setMinutes(created.getMinutes() + 5);
-    this.order.created = created.getTime();
-    this.order.sender = new proto.backend.Sender();
+    this.order.created = created;
+    this.order.sender = new Sender().toObject();
   }
 
   selectContact() {
@@ -155,12 +155,12 @@ export class OrderComponent implements OnInit {
     tsOrder.setTosList([to])
     tsOrder.setType(this.order.type);
     tsOrder.setFee(this.order.fee);
-    let tt=new Timestamp();
-    tt.fromDate(this.order.created);
-    tsOrder.setCreated(tt);
+
+    tsOrder.setCreated(new Timestamp());
+    tsOrder.getCreated().fromDate(this.order.created);
     tsOrder.setComment(this.order.comment);
     tsOrder.setPayinfo(payInfo);
-    apiService.ordersClient.add(tsOrder, { 'custom-header-1': 'value1' },
+    apiService.ordersClient.add(tsOrder, apiService.metaData,
       (err: grpcWeb.Error, response: Order) => {
         console.log(err);
         console.log(response);
