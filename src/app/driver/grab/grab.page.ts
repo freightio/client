@@ -20,7 +20,13 @@ export class GrabPage implements OnInit {
     private geolocation: Geolocation,
   ) { }
 
-  ngOnInit() {
+  ngOnInit() { }
+
+  ionViewDidEnter() {
+    this.load();
+  }
+
+  load() {
     var i = 0;
     this.geolocation.getCurrentPosition().then((resp) => {
       let positon = new Position()
@@ -44,13 +50,13 @@ export class GrabPage implements OnInit {
       });
       stream.on('error', err => {
         console.log(err);
-        this.ngOnInit();
+        this.load();
       });
     });
   }
 
   refresh(event) {
-    this.ngOnInit();
+    this.load();
     setTimeout(() => {
       event.target.complete();
     }, 1000);

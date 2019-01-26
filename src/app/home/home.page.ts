@@ -139,15 +139,10 @@ export class HomePage implements OnInit {
       component: OrderComponent,
       componentProps: {
         order: this.order
-        // from: this.from,
-        // to: this.to,
-        // fee: this.fee,
-        // type: this.currentFreight.name
       }
     });
 
     await modal.present();
     const result = await modal.onDidDismiss();
-    // this.from = result;
   }
 }

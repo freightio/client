@@ -18,7 +18,13 @@ export class OngoingPage implements OnInit {
 
   constructor(private alertController: AlertController) { }
 
-  ngOnInit() {
+  ngOnInit() { }
+
+  ionViewDidEnter() {
+    this.load();
+  }
+
+  load() {
     const tsUser = new User();
     tsUser.setId(loginService.getUser().id);
     apiService.ordersClient.listByUser(tsUser, apiService.metaData,
