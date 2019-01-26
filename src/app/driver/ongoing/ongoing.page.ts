@@ -129,4 +129,8 @@ export class OngoingPage implements OnInit {
     });
     await alert.present();
   }
+
+  ionViewDidLeave() {
+    this.orders = [];
+  }
 }

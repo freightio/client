@@ -80,4 +80,8 @@ export class GrabPage implements OnInit {
       console.log(e);
     });
   }
+
+  ionViewDidLeave() {
+    this.orders = [];
+  }
 }
