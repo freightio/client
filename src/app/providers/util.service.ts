@@ -39,7 +39,7 @@ export class ApiService {
   vehiclesClient = new VehiclesClient(environment.apiUrl, null, null);
   certificationsClient = new CertificationsClient(environment.apiUrl, null, null);
 
-  metaData = { 'custom-header-1': 'value1' };
+  metaData = { 'authorization-token': 'admin' };
 }
 
 export const loginService = new UtilService();
