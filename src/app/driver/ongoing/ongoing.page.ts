@@ -35,23 +35,21 @@ export class OngoingPage implements OnInit {
           for (var i in response.getItemsList()) {
             console.log(i, response.getItemsList()[i])
             let tsOrder = response.getItemsList()[i]
-            if (tsOrder.getStatus() == 'accept') {
-              this.orders[i] = tsOrder.toObject();
-              if (tsOrder.getSender() != null) {
-                this.orders[i].sender = tsOrder.getSender().toObject();
-              }
-              if (tsOrder.getFrom() != null) {
-                this.orders[i].from = tsOrder.getFrom().toObject();
-              }
-              if (tsOrder.getTosList()[0] != null) {
-                this.orders[i].to = tsOrder.getTosList()[0].toObject();
-              }
-              this.orders[i].fee = tsOrder.getFee().toFixed(2);
-              this.orders[i].created = tsOrder.getCreated().toDate();
+            this.orders[i] = tsOrder.toObject();
+            if (tsOrder.getSender() != null) {
+              this.orders[i].sender = tsOrder.getSender().toObject();
             }
+            if (tsOrder.getFrom() != null) {
+              this.orders[i].from = tsOrder.getFrom().toObject();
+            }
+            if (tsOrder.getTosList()[0] != null) {
+              this.orders[i].to = tsOrder.getTosList()[0].toObject();
+            }
+            this.orders[i].fee = tsOrder.getFee().toFixed(2);
+            this.orders[i].created = tsOrder.getCreated().toDate();
           };
         }
-        //this.orders = this.orders.filter(order => order.status == 'accept');
+        this.orders = this.orders.filter(order => order.status == 'accept');
       });
   }
 
