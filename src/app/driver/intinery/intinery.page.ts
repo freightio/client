@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { loginService, apiService } from '../../providers/util.service';
 import * as grpcWeb from 'grpc-web';
@@ -14,11 +15,11 @@ declare var AMap;
 })
 export class IntineryPage implements OnInit {
   @ViewChild('map_container') map_container: ElementRef;
-  map: any; // 地图对象
+  map: any;
   order = loginService.order;
   isDisplay = true;
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
     document.getElementById('detail_order').ontouchmove = (e) => {
@@ -74,6 +75,7 @@ export class IntineryPage implements OnInit {
           apiService.ordersClient.update(tsOrder, apiService.metaData,
             (err: grpcWeb.Error, response: Order) => {
               console.log(response);
+              this.router.navigateByUrl('/driver/ongoing');
             });
         }
       } else {
