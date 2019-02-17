@@ -1,5 +1,5 @@
 #Internal package file, do not edit.
-#Sun Feb 17 13:12:02 CST 2019
+#Sun Feb 17 13:59:20 CST 2019
 1034.base=/home/daniel/freightio/client/platforms/android/app/build/intermediates/assets/debug
 881.path=www/167.78662065677c30421eee.js
 508.set=ASSET
