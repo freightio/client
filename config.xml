@@ -92,5 +92,5 @@
         <variable name="SANDBOX_MODE" value="false" />
     </plugin>
     <plugin name="cordova-plugin-qrscanner" spec="2.6.0" />
-    <engine name="android" spec="~7.1.4" />
+    <engine name="android" spec="7.1.4" />
 </widget>
