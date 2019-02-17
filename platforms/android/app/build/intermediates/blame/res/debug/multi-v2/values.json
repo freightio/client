@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "/home/daniel/go/src/github.com/freightio/client/platforms/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values/values.xml",
+            "outputFile": "/home/daniel/freightio/client/platforms/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values/values.xml",
             "map": [
                 {
                     "source": "/home/daniel/.gradle/caches/transforms-1/files-1.1/appcompat-v7-23.1.0.aar/c1001f4029009779abe82791ee5eec2f/res/values/values.xml",
@@ -23,23 +23,6 @@
                     }
                 },
                 {
-                    "source": "/home/daniel/go/src/github.com/freightio/client/platforms/android/app/src/main/res/values/strings.xml",
-                    "from": {
-                        "startLines": "4,2,3",
-                        "startColumns": "4,4,4",
-                        "startOffsets": "156,55,97",
-                        "endColumns": "63,41,58",
-                        "endOffsets": "215,92,151"
-                    },
-                    "to": {
-                        "startLines": "229,230,231",
-                        "startColumns": "4,4,4",
-                        "startOffsets": "30063,30127,30169",
-                        "endColumns": "63,41,58",
-                        "endOffsets": "30122,30164,30223"
-                    }
-                },
-                {
                     "source": "/home/daniel/.gradle/caches/transforms-1/files-1.1/zxing-android-embedded-3.3.0.aar/7576d549728757943563ccb16ac788cd/res/values/values.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,15,16,17,18,19,20,21,22,23,24,25,26",
@@ -56,6 +39,23 @@
                         "endLines": "72,73,74,75,76,77,78,79,80,81,198,199,200,201,202,203,204,233,234,235,236,1508",
                         "endColumns": "71,60,63,64,64,53,53,53,58,57,46,47,41,48,51,57,53,58,46,143,112,10",
                         "endOffsets": "4981,5042,5106,5171,5236,5290,5344,5398,5457,5515,28098,28146,28188,28237,28289,28347,28401,30353,30400,30544,30657,115741"
+                    }
+                },
+                {
+                    "source": "/home/daniel/freightio/client/platforms/android/app/src/main/res/values/strings.xml",
+                    "from": {
+                        "startLines": "4,2,3",
+                        "startColumns": "4,4,4",
+                        "startOffsets": "156,55,97",
+                        "endColumns": "63,41,58",
+                        "endOffsets": "215,92,151"
+                    },
+                    "to": {
+                        "startLines": "229,230,231",
+                        "startColumns": "4,4,4",
+                        "startOffsets": "30063,30127,30169",
+                        "endColumns": "63,41,58",
+                        "endOffsets": "30122,30164,30223"
                     }
                 }
             ]

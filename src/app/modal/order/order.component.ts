@@ -61,7 +61,7 @@ export class OrderComponent implements OnInit {
               let payInfo = new PayInfo();
               payInfo.setType('walletpay');
               payInfo.setPayresult(JSON.stringify(response));
-              this.saveToDB(payInfo);
+              this.addOrder(payInfo);
             })
           }
         }
@@ -106,7 +106,7 @@ export class OrderComponent implements OnInit {
             let payInfo = new PayInfo();
             payInfo.setType('alipay');
             payInfo.setPayresult(JSON.stringify(success));
-            this.saveToDB(payInfo);
+            this.addOrder(payInfo);
           }, (error) => {
             console.log(error);
             alert('error:' + JSON.stringify(error));
@@ -115,7 +115,7 @@ export class OrderComponent implements OnInit {
       });
   }
 
-  saveToDB(payInfo: PayInfo) {
+  addOrder(payInfo: PayInfo) {
     const tsOrder = new Order();
     tsOrder.setSender(new Sender());
     tsOrder.getSender().setId(loginService.getUser().id);

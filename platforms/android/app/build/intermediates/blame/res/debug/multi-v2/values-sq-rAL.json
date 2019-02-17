@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "/home/daniel/go/src/github.com/freightio/client/platforms/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-sq-rAL/values-sq-rAL.xml",
+            "outputFile": "/home/daniel/freightio/client/platforms/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-sq-rAL/values-sq-rAL.xml",
             "map": [
                 {
                     "source": "/home/daniel/.gradle/caches/transforms-1/files-1.1/appcompat-v7-23.1.0.aar/c1001f4029009779abe82791ee5eec2f/res/values-sq-rAL/values-sq-rAL.xml",

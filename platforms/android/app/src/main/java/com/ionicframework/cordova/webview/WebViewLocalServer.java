@@ -19,6 +19,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
 
 import org.apache.cordova.ConfigXmlParser;
@@ -48,20 +49,23 @@ import java.util.UUID;
 public class WebViewLocalServer {
   private static String TAG = "WebViewAssetServer";
   private String basePath;
-  private final static String httpScheme = "http";
-  private final static String httpsScheme = "https";
+  public final static String httpScheme = "http";
+  public final static String httpsScheme = "https";
   public final static String fileStart = "/_app_file_";
   public final static String contentStart = "/_app_content_";
 
   private final UriMatcher uriMatcher;
   private final AndroidProtocolHandler protocolHandler;
   private final String authority;
+  private final String customScheme;
   // Whether we're serving local files or proxying (for example, when doing livereload on a
   // non-local endpoint (will be false in that case)
   private boolean isAsset;
   // Whether to route all requests to paths without extensions back to `index.html`
   private final boolean html5mode;
   private ConfigXmlParser parser;
+
+  public String getAuthority() { return authority; }
 
   /**
    * A handler that produces responses for paths on the virtual asset server.
@@ -159,12 +163,13 @@ public class WebViewLocalServer {
     }
   }
 
-  WebViewLocalServer(Context context, String authority, boolean html5mode, ConfigXmlParser parser) {
+  WebViewLocalServer(Context context, String authority, boolean html5mode, ConfigXmlParser parser, String customScheme) {
     uriMatcher = new UriMatcher(null);
     this.html5mode = html5mode;
     this.parser = parser;
     this.protocolHandler = new AndroidProtocolHandler(context.getApplicationContext());
     this.authority = authority;
+    this.customScheme = customScheme;
   }
 
   private static Uri parseAndVerifyUrl(String url) {
@@ -186,7 +191,15 @@ public class WebViewLocalServer {
   
   private static WebResourceResponse createWebResourceResponse(String mimeType, String encoding, int statusCode, String reasonPhrase, Map<String, String> responseHeaders, InputStream data) {
     if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-      return new WebResourceResponse(mimeType, encoding, statusCode, reasonPhrase, responseHeaders, data);
+      int finalStatusCode = statusCode;
+      try {
+        if (data.available() == 0) {
+          finalStatusCode = 404;
+        }
+      } catch (IOException e) {
+        finalStatusCode = 500;
+      }
+      return new WebResourceResponse(mimeType, encoding, finalStatusCode, reasonPhrase, responseHeaders, data);
     } else {
       return new WebResourceResponse(mimeType, encoding, data);
     }
@@ -201,7 +214,7 @@ public class WebViewLocalServer {
    * @param uri the request Uri to process.
    * @return a response if the request URL had a matching handler, null if no handler was found.
    */
-  public WebResourceResponse shouldInterceptRequest(Uri uri) {
+  public WebResourceResponse shouldInterceptRequest(Uri uri, WebResourceRequest request) {
     PathHandler handler;
     synchronized (uriMatcher) {
       handler = (PathHandler) uriMatcher.match(uri);
@@ -212,7 +225,7 @@ public class WebViewLocalServer {
 
     if (isLocalFile(uri) || uri.getAuthority().equals(this.authority)) {
       Log.d("SERVER", "Handling local request: " + uri.toString());
-      return handleLocalRequest(uri, handler);
+      return handleLocalRequest(uri, handler, request);
     } else {
       return handleProxyRequest(uri, handler);
     }
@@ -226,9 +239,32 @@ public class WebViewLocalServer {
     return false;
   }
 
-  private WebResourceResponse handleLocalRequest(Uri uri, PathHandler handler) {
-    String path = uri.getPath();
 
+  private WebResourceResponse handleLocalRequest(Uri uri, PathHandler handler, WebResourceRequest request) {
+    String path = uri.getPath();
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && request != null && request.getRequestHeaders().get("Range") != null) {
+      InputStream responseStream = new LollipopLazyInputStream(handler, uri);
+      String mimeType = getMimeType(path, responseStream);
+      Map<String, String> tempResponseHeaders = handler.getResponseHeaders();
+      int statusCode = 206;
+      try {
+        int totalRange = responseStream.available();
+        String rangeString = request.getRequestHeaders().get("Range");
+        String[] parts = rangeString.split("=");
+        String[] streamParts = parts[1].split("-");
+        String fromRange = streamParts[0];
+        int range = totalRange-1;
+        if (streamParts.length > 1) {
+          range = Integer.parseInt(streamParts[1]);
+        }
+        tempResponseHeaders.put("Accept-Ranges", "bytes");
+        tempResponseHeaders.put("Content-Range", "bytes " + fromRange + "-" + range + "/" + totalRange);
+      } catch (IOException e) {
+        statusCode = 404;
+      }
+      return createWebResourceResponse(mimeType, handler.getEncoding(),
+              statusCode, handler.getReasonPhrase(), tempResponseHeaders, responseStream);
+    }
     if (isLocalFile(uri)) {
       InputStream responseStream = new LollipopLazyInputStream(handler, uri);
       String mimeType = getMimeType(path, responseStream);
@@ -236,7 +272,7 @@ public class WebViewLocalServer {
               handler.getStatusCode(), handler.getReasonPhrase(), handler.getResponseHeaders(), responseStream);
     }
 
-    if (path.equals("/") || (!uri.getLastPathSegment().contains(".") && html5mode)) {
+    if (path.equals("") || path.equals("/") || (!uri.getLastPathSegment().contains(".") && html5mode)) {
       InputStream stream;
       String launchURL = parser.getLaunchUrl();
       String launchFile = launchURL.substring(launchURL.lastIndexOf("/") + 1, launchURL.length());
@@ -259,15 +295,10 @@ public class WebViewLocalServer {
 
     int periodIndex = path.lastIndexOf(".");
     if (periodIndex >= 0) {
-      String ext = path.substring(path.lastIndexOf("."), path.length());
-
       InputStream responseStream = new LollipopLazyInputStream(handler, uri);
-      InputStream stream = responseStream;
-
-      String mimeType = getMimeType(path, stream);
-
+      String mimeType = getMimeType(path, responseStream);
       return createWebResourceResponse(mimeType, handler.getEncoding(),
-              handler.getStatusCode(), handler.getReasonPhrase(), handler.getResponseHeaders(), stream);
+              handler.getStatusCode(), handler.getReasonPhrase(), handler.getResponseHeaders(), responseStream);
     }
 
     return null;
@@ -369,26 +400,9 @@ public class WebViewLocalServer {
    *                  available by the server (for example "/www").
    */
   public void hostAssets(String assetPath) {
-    hostAssets(authority, assetPath, "", true, true);
+    hostAssets(authority, assetPath);
   }
 
-
-  /**
-   * Hosts the application's assets on an http(s):// URL. Assets from the local path
-   * <code>assetPath/...</code> will be available under
-   * <code>http(s)://{uuid}.androidplatform.net/{virtualAssetPath}/...</code>.
-   *
-   * @param assetPath        the local path in the application's asset folder which will be made
-   *                         available by the server (for example "/www").
-   * @param virtualAssetPath the path on the local server under which the assets should be hosted.
-   * @param enableHttp       whether to enable hosting using the http scheme.
-   * @param enableHttps      whether to enable hosting using the https scheme.
-   */
-  public void hostAssets(final String assetPath, final String virtualAssetPath,
-                                        boolean enableHttp, boolean enableHttps) {
-    hostAssets(authority, assetPath, virtualAssetPath, enableHttp,
-            enableHttps);
-  }
 
   /**
    * Hosts the application's assets on an http(s):// URL. Assets from the local path
@@ -398,13 +412,10 @@ public class WebViewLocalServer {
    * @param domain           custom domain on which the assets should be hosted (for example "example.com").
    * @param assetPath        the local path in the application's asset folder which will be made
    *                         available by the server (for example "/www").
-   * @param virtualAssetPath the path on the local server under which the assets should be hosted.
-   * @param enableHttp       whether to enable hosting using the http scheme.
-   * @param enableHttps      whether to enable hosting using the https scheme.
+   * @return prefixes under which the assets are hosted.
    */
   public void hostAssets(final String domain,
-                                        final String assetPath, final String virtualAssetPath,
-                                        boolean enableHttp, boolean enableHttps) {
+                                        final String assetPath) {
     this.isAsset = true;
     this.basePath = assetPath;
 
@@ -445,6 +456,9 @@ public class WebViewLocalServer {
 
     registerUriForScheme(httpScheme, handler, authority);
     registerUriForScheme(httpsScheme, handler, authority);
+    if (!customScheme.equals(httpScheme) && !customScheme.equals(httpsScheme)) {
+      registerUriForScheme(customScheme, handler, authority);
+    }
 
   }
 
@@ -549,12 +563,7 @@ public class WebViewLocalServer {
    * @param basePath the local path in the application's data folder which will be made
    *                  available by the server (for example "/www").
    */
-  public void hostFiles(String basePath) {
-    hostFiles(basePath, true, true);
-  }
-
-  public void hostFiles(final String basePath, boolean enableHttp,
-                                       boolean enableHttps) {
+  public void hostFiles(final String basePath) {
     this.isAsset = false;
     this.basePath = basePath;
     createHostingDetails();
