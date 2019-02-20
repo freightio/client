@@ -16,17 +16,18 @@ export class DefaultPage implements OnInit {
 
   ngOnInit() {
     this.map = new AMap.Map(this.map_container.nativeElement, {
-      resizeEnable: true,
-      rotateEnable: true,
-      pitchEnable: true,
-      zoom: 17,
+      //resizeEnable: true,
+      //rotateEnable: true,
+      //pitchEnable: true,
+      zoom: 11,
       //pitch: 80,
       //rotation: -15,
       viewMode: '2D',//开启3D视图,默认为关闭
       buildingAnimation: true,//楼块出现是否带动画
+      showBuildingBlock: true,
       expandZoomRange: true,
-      zooms: [3, 20],
-      center: [116.333926, 39.997245]
+      //zooms: [3, 20],
+      //center: [116.333926, 39.997245]
     });
     AMap.plugin('AMap.ToolBar', () => {
       var toolbar = new AMap.ToolBar();
