@@ -2,17 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
-
 import { IonicModule } from '@ionic/angular';
-
 import { DriverPage } from './driver.page';
-import {GrabPage} from './grab/grab.page';
-import {OngoingPage} from './ongoing/ongoing.page';
-import {CertificationPage} from './certification/certification.page';
-
-import {GrabPageModule} from './grab/grab.module';
-import {OngoingPageModule} from './ongoing/ongoing.module';
-import {CertificationPageModule} from './certification/certification.module';
 
 const routes: Routes = [
   {
@@ -20,11 +11,21 @@ const routes: Routes = [
     component: DriverPage,
     children: [
       {
-        path: 'grab',
+        path: 'default',
         children: [
           {
             path: '',
             //component: GrabPage,
+            loadChildren: './default/default.module#DefaultPageModule',
+          }
+        ]
+      },
+      {
+        path: 'grab',
+        children: [
+          {
+            path: '',
+            //component: DefaultPage,
             loadChildren: './grab/grab.module#GrabPageModule',
           }
         ]
@@ -51,7 +52,7 @@ const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: '/driver/grab',
+        redirectTo: '/driver/default',
         pathMatch: 'full'
       }
     ]
@@ -63,10 +64,7 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild(routes),
-    //GrabPageModule,
-    //OngoingPageModule,
-    //CertificationPageModule
+    RouterModule.forChild(routes)
   ],
   declarations: [DriverPage]
 })

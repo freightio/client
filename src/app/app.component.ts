@@ -14,12 +14,12 @@ export class AppComponent {
   isAdmin = false;
   public appPages = [
     {
-      title: '首页',
+      title: '快速下单',
       url: '/home',
       icon: 'home'
     },
     {
-      title: '货运订单',
+      title: '订单列表',
       url: '/list',
       icon: 'list'
     },
