@@ -44,8 +44,8 @@ export class DefaultPage implements OnInit {
           (status0, result0) => {
             if (status0 == "complete") {
               //alert(result0.locations[0]);
-              var toLng = result0.locations[0].O;
-              var toLat = result0.locations[0].P;
+              var toLng = result0.locations[0].P;
+              var toLat = result0.locations[0].O;
               alert(toLng + ',' + toLat);
               //transform=true;
               const positionInfo = [toLng + '', toLat + ''];
