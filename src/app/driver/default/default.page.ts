@@ -38,15 +38,15 @@ export class DefaultPage implements OnInit {
 
   getLocation() {
     this.geolocation.getCurrentPosition().then((resp) => {
-      alert(resp.coords);
+      alert(resp.coords.longitude + ',' + resp.coords.latitude);
       AMap.service('AMap.Geocoder', () => {
         AMap.convertFrom(resp.coords.longitude + "," + resp.coords.latitude, "gps",
           (status0, result0) => {
             if (status0 == "complete") {
-              alert(result0.locations[0]);
+              //alert(result0.locations[0]);
               var toLng = result0.locations[0].O;
               var toLat = result0.locations[0].P;
-              console.log(toLng, toLat);
+              alert(toLng + ',' + toLat);
               //transform=true;
               const positionInfo = [toLng + '', toLat + ''];
               this.map.setCenter(positionInfo);
