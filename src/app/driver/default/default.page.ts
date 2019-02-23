@@ -38,25 +38,43 @@ export class DefaultPage implements OnInit {
 
   getLocation() {
     this.geolocation.getCurrentPosition().then((resp) => {
+      console.log(resp.coords);
       AMap.service('AMap.Geocoder', () => {
-        const positionInfo = [resp.coords.longitude + '', resp.coords.latitude + ''];
-        this.map.setCenter(positionInfo);
+        AMap.convertFrom(resp.coords.longitude + "," + resp.coords.latitude, "gps",
+          (status0, result0) => {
+            if (status0 == "complete") {
+              console.log(result0.locations[0]);
+              var toLng = result0.locations[0].O;
+              var toLat = result0.locations[0].P;
+              console.log(toLng, toLat);
+              //transform=true;
+              const positionInfo = [toLng + '', toLat + ''];
+              this.map.setCenter(positionInfo);
 
-        const geocoder = new AMap.Geocoder({});
-        geocoder.getAddress(positionInfo, (status, result) => {
-          if (status === 'complete' && result.info === 'OK') {
-            const marker = new AMap.Marker({
-              map: this.map,
-              position: positionInfo
-            });
-            marker.setLabel({
-              offset: new AMap.Pixel(20, 20), // 修改label相对于maker的位置
-              content: result.regeocode.formattedAddress
-            });
-          } else {
-            console.log('获取地址失败');
-          }
-        });
+              const geocoder = new AMap.Geocoder({});
+              geocoder.getAddress(positionInfo, (status, result) => {
+                if (status === 'complete' && result.info === 'OK') {
+                  const marker = new AMap.Marker({
+                    map: this.map,
+                    position: positionInfo
+                  });
+                  marker.setLabel({
+                    offset: new AMap.Pixel(20, 20), // 修改label相对于maker的位置
+                    content: result.regeocode.formattedAddress
+                  });
+                } else {
+                  console.log('获取地址失败');
+                }
+              });
+
+            } else {
+              console.log(status + "/" + result0);
+              alert("获取位置失败,请重试");
+            }
+          });
+
+
+
       });
 
     }).catch((error) => {
