@@ -20,7 +20,7 @@ export class OngoingPage implements OnInit {
 
   ngOnInit() { }
 
-  ionViewDidEnter() {
+  ionViewWillEnter() {
     this.load();
   }
 

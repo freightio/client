@@ -28,12 +28,12 @@ export class DefaultPage implements OnInit {
       expandZoomRange: true,
       //zooms: [3, 20],
       //center: [116.333926, 39.997245]
+      mapStyle: 'amap://styles/macaron',
     });
     AMap.plugin('AMap.ToolBar', () => {
       var toolbar = new AMap.ToolBar();
       this.map.addControl(toolbar);
     });
-    this.map.setMapStyle('amap://styles/macaron');
     this.getLocation();
   }
 
@@ -41,12 +41,9 @@ export class DefaultPage implements OnInit {
     this.geolocation.getCurrentPosition().then((resp) => {
       AMap.service('AMap.Geocoder', () => {
         AMap.convertFrom(resp.coords.longitude + "," + resp.coords.latitude, "gps",
-          (status0, result0) => {
-            if (status0 == "complete") {
-              var toLng = result0.locations[0].P;
-              var toLat = result0.locations[0].O;
-
-              const positionInfo = [toLng + '', toLat + ''];
+          (status, result) => {
+            if (status == "complete") {
+              const positionInfo = [result.locations[0].P + '', result.locations[0].O + ''];
               this.map.setCenter(positionInfo);
 
               const geocoder = new AMap.Geocoder({});
@@ -57,17 +54,15 @@ export class DefaultPage implements OnInit {
                     position: positionInfo
                   });
                   marker.setLabel({
-                    offset: new AMap.Pixel(0, 0), // 修改label相对于marker的位置
+                    offset: new AMap.Pixel(20, 20), // 修改label相对于marker的位置
                     content: result.regeocode.formattedAddress
                   });
                 } else {
                   console.log('获取地址失败');
                 }
               });
-
             } else {
-              console.log(status + "/" + result0);
-              alert("获取位置失败,请重试");
+              alert("坐标转换失败," + status + "/" + result);
             }
           });
       });

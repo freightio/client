@@ -22,7 +22,7 @@ export class GrabPage implements OnInit {
 
   ngOnInit() { }
 
-  ionViewDidEnter() {
+  ionViewWillEnter() {
     this.load();
   }
 
