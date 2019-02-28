@@ -13,12 +13,10 @@
     <ion-label>音效提示</ion-label>
     <ion-checkbox slot="end"></ion-checkbox>
   </ion-item>
-  <ion-item>
+  <ion-item (click)="popupPrivacy()">
     <ion-badge slot="start" color="success">2</ion-badge>
     <ion-label>隐私</ion-label>
-    <a href="https://raw.githubusercontent.com/freightio/client/master/src/assets/privacy.txt">
-      <ion-icon name="arrow-dropright"></ion-icon>
-    </a>
+    <ion-icon name="arrow-dropright"></ion-icon>
   </ion-item>
   <ion-item>
     <ion-badge slot="start" color="success">3</ion-badge>
