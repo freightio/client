@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { AlertController } from '@ionic/angular';
 import { UsersClient } from '../../sdk/user_grpc_web_pb';
 import { WalletsClient } from '../../sdk/wallet_grpc_web_pb';
 import { OrdersClient } from '../../sdk/order_grpc_web_pb';
@@ -11,8 +12,7 @@ import { environment } from '../../environments/environment';
 })
 export class UtilService {
   order: any;
-
-  constructor() { }
+  alertController = new AlertController();
 
   getUser() {
     let localUser = window.localStorage.getItem('user');
@@ -30,6 +30,15 @@ export class UtilService {
   logout() {
     window.localStorage.removeItem('user');
   }
+
+  async alert(msg: string, title: string = '提示') {
+    const alert = await this.alertController.create({
+      header: title,
+      message: msg,
+      buttons: ['OK']
+    });
+    await alert.present();
+  }
 }
 
 export class ApiService {
@@ -42,5 +51,5 @@ export class ApiService {
   metaData = { 'authorization-token': 'admin' };
 }
 
-export const loginService = new UtilService();
 export const apiService = new ApiService();
+export const utilService = new UtilService();

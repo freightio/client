@@ -3,7 +3,7 @@ import { NavParams, ActionSheetController, ModalController } from '@ionic/angula
 import { Contacts } from '@ionic-native/contacts/ngx';
 import * as grpcWeb from 'grpc-web';
 import { Account } from '../../../sdk/wallet_pb';
-import { loginService, apiService } from '../../providers/util.service';
+import { apiService, utilService } from '../../providers/util.service';
 import { Order, Position, Sender, SignReply, PayInfo } from '../../../sdk/order_pb';
 import { Timestamp } from 'google-protobuf/google/protobuf/timestamp_pb';
 
@@ -41,7 +41,7 @@ export class OrderComponent implements OnInit {
 
   async presentActionSheet() {
     if (!this.order.sender.name || !this.order.sender.tel) {
-      window.alert('请填写订单联系人与电话!');
+      utilService.alert('请填写订单联系人与电话!');
       return
     }
     const actionSheet = await this.actionSheetController.create({
@@ -55,7 +55,7 @@ export class OrderComponent implements OnInit {
             let account = new Account();
             account.setFee(-this.order.fee);
             //account.setOrderid(order.id);
-            account.setUserid(loginService.getUser().id);
+            account.setUserid(utilService.getUser().id);
             apiService.walletsClient.add(account, apiService.metaData, (err: grpcWeb.Error, response: Account) => {
               console.log(response);
               let payInfo = new PayInfo();
@@ -118,7 +118,7 @@ export class OrderComponent implements OnInit {
   addOrder(payInfo: PayInfo) {
     const tsOrder = new Order();
     tsOrder.setSender(new Sender());
-    tsOrder.getSender().setId(loginService.getUser().id);
+    tsOrder.getSender().setId(utilService.getUser().id);
     tsOrder.getSender().setName(this.order.sender.name);
     tsOrder.getSender().setTel(this.order.sender.tel);
 

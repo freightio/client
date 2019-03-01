@@ -2,7 +2,7 @@ import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Position } from '../../../sdk/order_pb';
-import { loginService, apiService } from '../../providers/util.service';
+import { utilService, apiService } from '../../providers/util.service';
 
 //declare var proto;
 declare var AMap;
@@ -57,7 +57,7 @@ export class GrabPage implements OnInit {
   }
 
   async showUserDetail(order) {
-    loginService.order = order;
+    utilService.order = order;
     this.router.navigateByUrl('/intinery');
   }
 

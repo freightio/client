@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController } from '@ionic/angular';
 import { HttpClient } from '@angular/common/http';
+import { utilService } from '../providers/util.service';
 
 @Component({
   selector: 'app-settings',
@@ -10,9 +10,7 @@ import { HttpClient } from '@angular/common/http';
 export class SettingsPage implements OnInit {
   privacy: any;
 
-  constructor(
-    public alertController: AlertController,
-    public http: HttpClient) { }
+  constructor(private http: HttpClient) { }
 
   ngOnInit() {
     this.http.get('https://raw.githubusercontent.com/freightio/client/master/src/assets/privacy.txt').subscribe(
@@ -25,12 +23,6 @@ export class SettingsPage implements OnInit {
   }
 
   async popupPrivacy() {
-    const alert = await this.alertController.create({
-      header: '隐私声明',
-      message: this.privacy,
-      buttons: ['OK']
-    });
-
-    await alert.present();
+    utilService.alert(this.privacy, '隐私声明');
   }
 }

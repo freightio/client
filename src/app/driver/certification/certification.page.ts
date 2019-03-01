@@ -2,7 +2,7 @@ import * as grpcWeb from 'grpc-web';
 import { Component, OnInit } from '@angular/core';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { Certification } from '../../../sdk/user_pb';
-import { loginService, apiService } from '../../providers/util.service';
+import { utilService, apiService } from '../../providers/util.service';
 
 @Component({
   selector: 'app-certification',
@@ -17,7 +17,7 @@ export class CertificationPage implements OnInit {
   ngOnInit() {
     var i = 0;
     let cert = new Certification();
-    cert.setUserid(loginService.getUser().id);
+    cert.setUserid(utilService.getUser().id);
     let stream = apiService.certificationsClient.list(cert, apiService.metaData);
     stream.on('data', response => {
       this.certifications[i] = response.toObject();
@@ -27,7 +27,7 @@ export class CertificationPage implements OnInit {
 
   takePhoto(name: string) {
     let certification = new Certification();
-    certification.setUserid(loginService.getUser().id);
+    certification.setUserid(utilService.getUser().id);
     certification.setName(name);
     certification.setStatus('new');
     const options: CameraOptions = {

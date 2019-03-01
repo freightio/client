@@ -3,7 +3,7 @@ import { Component, ViewChild, OnInit } from '@angular/core';
 import { ModalController, IonSlides } from '@ionic/angular';
 import { ModalComponent } from '../modal/map/modal.component';
 import { OrderComponent } from '../modal/order/order.component';
-import { loginService, apiService } from '../providers/util.service';
+import { apiService, utilService } from '../providers/util.service';
 import * as grpcWeb from 'grpc-web';
 import { Order } from '../../sdk/order_pb';
 import { VehicleList } from '../../sdk/vehicle_pb';
@@ -125,13 +125,13 @@ export class HomePage implements OnInit {
   }
 
   async beginNow() {
-    if (!loginService.getUser().id) {
-      alert('请登录!');
+    if (!utilService.getUser().id) {
+      utilService.alert('请登录!');
       return
     }
 
     if (!this.order.from || !this.order.tos) {
-      alert('订单起点与终点不能为空!');
+      utilService.alert('订单起点与终点不能为空!');
       return
     }
 

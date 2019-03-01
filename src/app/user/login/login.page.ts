@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Events } from '@ionic/angular';
 import { User } from '../../../sdk/user_pb';
-import { loginService, apiService } from '../../providers/util.service';
+import { utilService, apiService } from '../../providers/util.service';
 
 @Component({
   selector: 'app-login',
@@ -27,11 +27,11 @@ export class LoginPage implements OnInit {
     apiService.userClient.login(tsUser, apiService.metaData, (err: grpcWeb.Error, response: User) => {
       if (err) {
         console.log(err.code, err.message);
-        alert('手机号或密码不正确.');
+        utilService.alert('手机号或密码不正确.');
       } else {
         let username = response.getName();
         this.events.publish('user:login', username);
-        loginService.setUser(response.toObject());
+        utilService.setUser(response.toObject());
         this.router.navigateByUrl('/home');
       }
       console.log(response);
@@ -43,6 +43,6 @@ export class LoginPage implements OnInit {
   }
 
   logout() {
-    loginService.logout();
+    utilService.logout();
   }
 }

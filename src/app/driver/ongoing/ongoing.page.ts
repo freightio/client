@@ -4,7 +4,7 @@ import { AlertController } from '@ionic/angular';
 import { User } from '../../../sdk/user_pb';
 import { Account } from '../../../sdk/wallet_pb';
 import { OrderList, Order } from '../../../sdk/order_pb';
-import { loginService, apiService } from '../../providers/util.service';
+import { utilService, apiService } from '../../providers/util.service';
 
 declare var startApp;
 
@@ -26,7 +26,7 @@ export class OngoingPage implements OnInit {
 
   load() {
     const tsUser = new User();
-    tsUser.setId(loginService.getUser().id);
+    tsUser.setId(utilService.getUser().id);
     apiService.ordersClient.listByUser(tsUser, apiService.metaData,
       (err: grpcWeb.Error, response: OrderList) => {
         if (err) {
@@ -82,8 +82,8 @@ export class OngoingPage implements OnInit {
     if (order.status != 'accept') {
       return
     }
-    if (loginService.getUser().id != order.driverid) {
-      window.alert('仅司机可确认订单!');
+    if (utilService.getUser().id != order.driverid) {
+      utilService.alert('仅司机可确认订单!');
       return
     }
     const alert = await this.alertController.create({

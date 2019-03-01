@@ -3,7 +3,7 @@ import { OrderList } from '../../sdk/order_pb';
 import { User } from '../../sdk/user_pb';
 import { AlertController } from '@ionic/angular';
 import { Component, OnInit } from '@angular/core';
-import { loginService, apiService } from '../providers/util.service';
+import { utilService, apiService } from '../providers/util.service';
 
 declare var startApp;
 
@@ -26,7 +26,7 @@ export class ListPage implements OnInit {
 
   load() {
     const tsUser = new User();
-    tsUser.setId(loginService.getUser().id);
+    tsUser.setId(utilService.getUser().id);
     apiService.ordersClient.listByUser(tsUser, apiService.metaData,
       (err: grpcWeb.Error, response: OrderList) => {
         if (err) {

@@ -1,6 +1,6 @@
 import { Router } from '@angular/router';
 import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
-import { loginService, apiService } from '../../providers/util.service';
+import { apiService, utilService } from '../../providers/util.service';
 import * as grpcWeb from 'grpc-web';
 import { Order } from '../../../sdk/order_pb';
 import { IDRequest } from '../../../sdk/user_pb';
@@ -16,7 +16,7 @@ declare var AMap;
 export class IntineryPage implements OnInit {
   @ViewChild('map_container') map_container: ElementRef;
   map: any;
-  order = loginService.order;
+  order = utilService.order;
   isDisplay = true;
 
   constructor(private router: Router) { }
@@ -59,19 +59,19 @@ export class IntineryPage implements OnInit {
   }
 
   accept() {
-    if (!loginService.getUser().id) {
-      alert('请登录!')
+    if (!utilService.getUser().id) {
+      utilService.alert('请登录!')
       return;
     }
     let idRequest = new IDRequest();
-    idRequest.setId(loginService.getUser().id);
+    idRequest.setId(utilService.getUser().id);
     apiService.certificationsClient.verify(idRequest, apiService.metaData, (err: grpcWeb.Error, verified: BoolValue) => {
       if (verified.getValue()) {
         if (window.confirm('确定接单?')) {
           let tsOrder = new Order();
           tsOrder.setId(this.order.id)
           tsOrder.setStatus('accept');
-          tsOrder.setDriverid(loginService.getUser().id);
+          tsOrder.setDriverid(utilService.getUser().id);
           apiService.ordersClient.update(tsOrder, apiService.metaData,
             (err: grpcWeb.Error, response: Order) => {
               console.log(response);
