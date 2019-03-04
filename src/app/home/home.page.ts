@@ -1,6 +1,6 @@
 import { Router } from '@angular/router';
 import { Component, ViewChild, OnInit } from '@angular/core';
-import { ModalController, IonSlides } from '@ionic/angular';
+import { ModalController, IonSlides, Platform } from '@ionic/angular';
 import { ModalComponent } from '../modal/map/modal.component';
 import { OrderComponent } from '../modal/order/order.component';
 import { apiService, utilService } from '../providers/util.service';
@@ -8,6 +8,7 @@ import * as grpcWeb from 'grpc-web';
 import { Order } from '../../sdk/order_pb';
 import { VehicleList } from '../../sdk/vehicle_pb';
 import { Empty } from "google-protobuf/google/protobuf/empty_pb";
+import { async } from 'q';
 
 declare var AMap;
 //declare var proto;
@@ -29,9 +30,11 @@ export class HomePage implements OnInit {
     slidesPerView: 4,
     effect: 'flip'
   };
+  subscription: any;
 
   constructor(
     private router: Router,
+    private platform: Platform,
     private modalController: ModalController) {
     this.order = new Order().toObject();
   }
@@ -144,5 +147,28 @@ export class HomePage implements OnInit {
 
     await modal.present();
     const result = await modal.onDidDismiss();
+  }
+
+  ionViewDidEnter() {
+    this.subscription = this.platform.backButton.subscribe(async () => {
+      const alert = await utilService.alertController.create({
+        message: '确认退出[货运物联]客户端?',
+        buttons: [
+          {
+            text: '取消'
+          }, {
+            text: '确定',
+            handler: () => {
+              navigator['app'].exitApp();
+            }
+          }
+        ]
+      });
+      await alert.present();
+    });
+  }
+
+  ionViewWillLeave() {
+    this.subscription.unsubscribe();
   }
 }
