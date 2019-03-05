@@ -23,19 +23,15 @@ export class ModalComponent implements OnInit {
   }
 
   ionViewDidEnter() {
-    setTimeout(() => {
-      const cw = this.map_container.nativeElement.contentWindow;
-      // this.map_container.nativeElement.onload = function () {
-      cw.postMessage('hello', '*');
-      // };
-      window.addEventListener('message', (e) => {
-        console.log(e.data);
-        this.modalController.dismiss(e.data);
-      }, false);
-    }, 2000);
-  }
-
-  getLocation() {
-    alert('TODO.');
+    // setTimeout(() => {
+    const cw = this.map_container.nativeElement.contentWindow;
+    this.map_container.nativeElement.onload = function () {
+      cw.postMessage('hello', 'https://m.amap.com/picker/');
+    };
+    window.addEventListener('message', (e) => {
+      console.log(e.data);
+      this.modalController.dismiss(e.data);
+    }, false);
+    // }, 2000);
   }
 }
