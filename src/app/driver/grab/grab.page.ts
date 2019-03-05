@@ -41,6 +41,7 @@ export class GrabPage implements OnInit {
         this.orders[i].fee = response.getFee().toFixed(2);
         this.loadDistance(this.orders[i]);
         i++;
+        this.orders = this.orders.slice(0, i);
       });
       stream.on('error', err => {
         console.log(err);
@@ -73,9 +74,5 @@ export class GrabPage implements OnInit {
     }).catch(e => {
       console.log(e);
     });
-  }
-
-  ionViewDidLeave() {
-    this.orders = [];
   }
 }
