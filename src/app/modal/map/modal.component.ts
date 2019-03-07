@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { SafeResourceUrl, DomSanitizer } from '@angular/platform-browser';
 
 declare var AMap;
 declare var AMapUI;
@@ -14,13 +13,9 @@ export class ModalComponent implements OnInit {
   @ViewChild('map_container') map_container: ElementRef;
   map: any; // 地图对象
   currentPosition: any;
-  pois: any[]
+  positionName: any;
 
-  constructor(
-    private sanitizer: DomSanitizer,
-    private modalController: ModalController) {
-    //this.iframe = this.sanitizer.bypassSecurityTrustResourceUrl('https://m.amap.com/picker/?key=60d396703bef1a6a93d2eca45a70e764');
-  }
+  constructor(private modalController: ModalController) { }
 
   ngOnInit() {
     this.map = new AMap.Map(this.map_container.nativeElement, {
@@ -38,12 +33,12 @@ export class ModalComponent implements OnInit {
       //center: [116.333926, 39.997245]
       mapStyle: 'amap://styles/macaron',
     });
-    this.map.panBy(0, 1);
-    AMap.plugin('AMap.ToolBar', () => {
-      this.map.addControl(new AMap.ToolBar({
-        liteStyle: true
-      }))
-    });
+    // this.map.panBy(0, 1);
+    // AMap.plugin('AMap.ToolBar', () => {
+    //   this.map.addControl(new AMap.ToolBar({
+    //     liteStyle: true
+    //   }))
+    // });
 
     AMapUI.loadUI(['misc/PositionPicker', 'misc/PoiPicker'], (PositionPicker, PoiPicker) => {
       var positionPicker = new PositionPicker({
@@ -56,8 +51,7 @@ export class ModalComponent implements OnInit {
       //TODO:事件绑定、结果处理等
       positionPicker.on('success', (positionResult) => {
         console.log(positionResult);
-        this.pois = positionResult.regeocode.pois;
-
+        //this.pois = positionResult.regeocode.pois;
         this.currentPosition = {
           'name': positionResult.nearestPOI,
           'address': positionResult.address,
@@ -68,7 +62,7 @@ export class ModalComponent implements OnInit {
         marker.setPosition(positionInfo);
         marker.setLabel({
           offset: new AMap.Pixel(-80, -40), // 修改label相对于marker的位置
-          content: '<strong>' + positionResult.address + '</strong><br/>·' + positionResult.nearestRoad,
+          content: '<strong>' + positionResult.address + '</strong>',
         });
       });
       positionPicker.on('fail', (positionResult) => {
@@ -105,19 +99,10 @@ export class ModalComponent implements OnInit {
       this.map.addControl(geolocation);
       geolocation.getCurrentPosition();
     });
-    // AMap.event.addListener(geolocation, 'complete', onComplete);//返回定位信息
-
-    // const cw = this.map_container.nativeElement.contentWindow;
-    // this.map_container.nativeElement.onload = function () {
-    //   cw.postMessage('hello', 'https://m.amap.com/picker/');
-    // };
-    // window.addEventListener('message', (e) => {
-    //   console.log(e.data);
-    //   this.modalController.dismiss(e.data);
-    // }, false);
   }
 
   confirmPosition() {
+    this.currentPosition.name = this.positionName;
     this.modalController.dismiss(this.currentPosition);
   }
 }

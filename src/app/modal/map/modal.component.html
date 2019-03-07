@@ -1,7 +1,9 @@
 <ion-header>
   <ion-toolbar color="success">
     <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
+      <ion-button href="/home">
+        <ion-icon name="arrow-back"></ion-icon>
+      </ion-button>
     </ion-buttons>
     <ion-title>选择位置</ion-title>
   </ion-toolbar>
@@ -12,7 +14,8 @@
     <ion-input id="search" placeholder="输入关键字搜索地址"></ion-input>
   </div>
   <div style="position:absolute;z-index: 9999;bottom:0;width: 100%;">
-    <ion-input color="success" style="border-style:solid;text-align: center;" placeholder="补充更详细地址信息(选填)">
+    <ion-input [(ngModel)]="positionName" color="success" style="border-style:solid;text-align: center;"
+      placeholder="补充更详细地址信息(选填)">
     </ion-input>
     <ion-button color="success" expand="block" (click)="confirmPosition()">确认地址</ion-button>
   </div>
