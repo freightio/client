@@ -8,5 +8,19 @@
 </ion-header>
 
 <ion-content>
-  <iframe [src]="iframe" #map_container class="map_container" allow="geolocation"></iframe>
+  <div #map_container class="map_container">
+    <ion-input id="search" placeholder="输入关键字搜索地址"></ion-input>
+  </div>
+  <div style="position:absolute;z-index: 9999;bottom:0;width: 100%;">
+    <ion-input color="success" style="border-style:solid;text-align: center;" placeholder="补充更详细地址信息(选填)">
+    </ion-input>
+    <ion-button color="success" expand="block" (click)="confirmPosition()">确认地址</ion-button>
+  </div>
+  <!-- <div style="position:absolute;z-index: 9999;bottom:0;width: 100%;overflow-y: scroll;height:30%;">
+    <ion-item *ngFor="let poi of pois">
+      <ion-label>{{poi.name}}</ion-label><br/>
+      <ion-icon name="pin"></ion-icon>
+      <ion-text>{{poi.address}}</ion-text>
+    </ion-item>
+  </div> -->
 </ion-content>
