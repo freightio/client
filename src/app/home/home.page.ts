@@ -80,6 +80,7 @@ export class HomePage implements OnInit {
   }
 
   async presentFromModal() {
+    this.subscription.unsubscribe();
     const modal = await this.modalController.create({
       component: ModalComponent,
       componentProps: { value: 123 }
@@ -91,8 +92,7 @@ export class HomePage implements OnInit {
     this.order.from = result.data;
   }
 
-  async presentToModal() {
-    this.subscription.unsubscribe();
+  async presentToModal() {    
     const modal = await this.modalController.create({
       component: ModalComponent,
       componentProps: { value: 123 }
