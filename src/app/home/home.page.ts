@@ -8,7 +8,6 @@ import * as grpcWeb from 'grpc-web';
 import { Order } from '../../sdk/order_pb';
 import { VehicleList } from '../../sdk/vehicle_pb';
 import { Empty } from "google-protobuf/google/protobuf/empty_pb";
-import { async } from 'q';
 
 declare var AMap;
 //declare var proto;
@@ -93,6 +92,7 @@ export class HomePage implements OnInit {
   }
 
   async presentToModal() {
+    this.subscription.unsubscribe();
     const modal = await this.modalController.create({
       component: ModalComponent,
       componentProps: { value: 123 }

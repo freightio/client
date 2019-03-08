@@ -36,8 +36,8 @@ export class ModalComponent implements OnInit {
     // this.map.panBy(0, 1);
     AMap.plugin('AMap.ToolBar', () => {
       this.map.addControl(new AMap.ToolBar({
-        liteStyle: true,
-        offset: new AMap.Pixel(0, 180),
+        //liteStyle: true,
+        offset: new AMap.Pixel(0, 200),
         locate: true,
         autoPosition: true,
       }))
