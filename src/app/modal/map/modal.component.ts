@@ -34,11 +34,14 @@ export class ModalComponent implements OnInit {
       mapStyle: 'amap://styles/macaron',
     });
     // this.map.panBy(0, 1);
-    // AMap.plugin('AMap.ToolBar', () => {
-    //   this.map.addControl(new AMap.ToolBar({
-    //     liteStyle: true
-    //   }))
-    // });
+    AMap.plugin('AMap.ToolBar', () => {
+      this.map.addControl(new AMap.ToolBar({
+        liteStyle: true,
+        offset: new AMap.Pixel(0, 180),
+        locate: true,
+        autoPosition: true,
+      }))
+    });
 
     AMapUI.loadUI(['misc/PositionPicker', 'misc/PoiPicker'], (PositionPicker, PoiPicker) => {
       var positionPicker = new PositionPicker({
@@ -86,19 +89,19 @@ export class ModalComponent implements OnInit {
       });
     });
 
-    AMap.plugin('AMap.Geolocation', () => {
-      let geolocation = new AMap.Geolocation({
-        enableHighAccuracy: true,//是否使用高精度定位，默认:true
-        timeout: 10000,          //超过10秒后停止定位，默认：无穷大
-        maximumAge: 0,           //定位结果缓存0毫秒，默认：0
-        showMarker: true,        //定位成功后在定位到的位置显示点标记，默认：true
-        showCircle: true,        //定位成功后用圆圈表示定位精度范围，默认：true
-        panToLocation: true,     //定位成功后将定位到的位置作为地图中心点，默认：true
-        zoomToAccuracy: true      //定位成功后调整地图视野范围使定位位置及精度范围视野s内可见，默认：false
-      });
-      this.map.addControl(geolocation);
-      geolocation.getCurrentPosition();
-    });
+    // AMap.plugin('AMap.Geolocation', () => {
+    //   let geolocation = new AMap.Geolocation({
+    //     enableHighAccuracy: true,//是否使用高精度定位，默认:true
+    //     timeout: 10000,          //超过10秒后停止定位，默认：无穷大
+    //     maximumAge: 0,           //定位结果缓存0毫秒，默认：0
+    //     showMarker: true,        //定位成功后在定位到的位置显示点标记，默认：true
+    //     showCircle: true,        //定位成功后用圆圈表示定位精度范围，默认：true
+    //     panToLocation: true,     //定位成功后将定位到的位置作为地图中心点，默认：true
+    //     zoomToAccuracy: true      //定位成功后调整地图视野范围使定位位置及精度范围视野s内可见，默认：false
+    //   });
+    //   this.map.addControl(geolocation);
+    //   geolocation.getCurrentPosition();
+    // });
   }
 
   confirmPosition() {
