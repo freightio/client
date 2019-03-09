@@ -32,8 +32,11 @@ export class OngoingPage implements OnInit {
         if (err) {
           console.log(err);
         } else {
-          //let tsOrders = response.getItemsList();
           let tsOrders = response.getItemsList().filter(order => order.getStatus() == 'accept');
+          if (tsOrders.length == this.orders.length) {
+            return
+          }
+          this.orders = [];
           for (var i in tsOrders) {
             let tsOrder = tsOrders[i]
             this.orders[i] = tsOrder.toObject();
@@ -43,7 +46,6 @@ export class OngoingPage implements OnInit {
             this.orders[i].fee = tsOrder.getFee().toFixed(2);
             this.orders[i].created = tsOrder.getCreated().toDate();
           };
-          this.orders = this.orders.slice(0, tsOrders.length);
         }
       });
   }
