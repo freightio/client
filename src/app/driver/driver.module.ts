@@ -27,6 +27,9 @@ const routes: Routes = [
             path: '',
             //component: DefaultPage,
             loadChildren: './grab/grab.module#GrabPageModule',
+            data: {
+              preload: true
+            },
           }
         ]
       },

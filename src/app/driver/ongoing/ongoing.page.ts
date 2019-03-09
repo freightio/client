@@ -41,6 +41,7 @@ export class OngoingPage implements OnInit {
             this.orders[i].fee = tsOrder.getFee().toFixed(2);
             this.orders[i].created = tsOrder.getCreated().toDate();
           };
+          this.orders = this.orders.slice(0, response.getItemsList().length);
         }
         this.orders = this.orders.filter(order => order.status == 'accept');
       });
@@ -123,7 +124,7 @@ export class OngoingPage implements OnInit {
     await alert.present();
   }
 
-  ionViewDidLeave() {
-    this.orders = [];
-  }
+  // ionViewDidLeave() {
+  //   this.orders = [];
+  // }
 }
