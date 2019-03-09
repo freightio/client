@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { UsersClient } from '../../sdk/user_grpc_web_pb';
 import { WalletsClient } from '../../sdk/wallet_grpc_web_pb';
@@ -11,8 +11,8 @@ import { environment } from '../../environments/environment';
   providedIn: 'root'
 })
 export class UtilService {
+  injector: Injector;
   order: any;
-  alertController = new AlertController();
 
   getUser() {
     let localUser = window.localStorage.getItem('user');
@@ -32,7 +32,7 @@ export class UtilService {
   }
 
   async alert(msg: string, title: string = '提示') {
-    const alert = await this.alertController.create({
+    const alert = await this.injector.get(AlertController).create({
       header: title,
       message: msg,
       buttons: ['OK']

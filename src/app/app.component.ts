@@ -1,5 +1,5 @@
 import { Router } from '@angular/router';
-import { Component } from '@angular/core';
+import { Component, Injector } from '@angular/core';
 import { Platform, MenuController, Events } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
@@ -36,12 +36,10 @@ export class AppComponent {
   ];
 
   constructor(
-    private events: Events,
+    private injector: Injector,
     private platform: Platform,
     private splashScreen: SplashScreen,
-    private statusBar: StatusBar,
-    private router: Router,
-    public menuCtrl: MenuController
+    private statusBar: StatusBar
   ) {
     this.initializeApp();
   }
@@ -52,6 +50,7 @@ export class AppComponent {
       this.splashScreen.hide();
       this.listenForLoginEvents();
 
+      utilService.injector = this.injector;
       if (window.localStorage.getItem('user')) {
         this.username = utilService.getUser().name;
       }
@@ -67,12 +66,12 @@ export class AppComponent {
   }
 
   async login(ev: any) {
-    this.router.navigateByUrl('/login');
-    this.menuCtrl.close();
+    this.injector.get(Router).navigateByUrl('/login');
+    this.injector.get(MenuController).close();
   }
 
   listenForLoginEvents() {
-    this.events.subscribe('user:login', (username) => {
+    this.injector.get(Events).subscribe('user:login', (username) => {
       this.initializeApp();
     });
   }

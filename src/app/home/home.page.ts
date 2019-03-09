@@ -1,6 +1,6 @@
 import { Router } from '@angular/router';
 import { Component, ViewChild, OnInit } from '@angular/core';
-import { ModalController, IonSlides, Platform } from '@ionic/angular';
+import { ModalController, IonSlides, Platform, AlertController } from '@ionic/angular';
 import { ModalComponent } from '../modal/map/modal.component';
 import { OrderComponent } from '../modal/order/order.component';
 import { apiService, utilService } from '../providers/util.service';
@@ -151,7 +151,7 @@ export class HomePage implements OnInit {
 
   ionViewDidEnter() {
     this.subscription = this.platform.backButton.subscribe(async () => {
-      const alert = await utilService.alertController.create({
+      const alert = await utilService.injector.get(AlertController).create({
         message: '确认退出[货运物联]客户端?',
         buttons: [
           {
