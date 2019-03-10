@@ -1,7 +1,7 @@
 import * as grpcWeb from 'grpc-web';
 import { Component, OnInit } from '@angular/core';
 import { Certification } from '../../../sdk/user_pb';
-import { apiService } from '../../providers/util.service';
+import { apiService, utilService } from '../../providers/util.service';
 
 @Component({
   selector: 'app-verify',
@@ -16,7 +16,7 @@ export class VerifyPage implements OnInit {
   ngOnInit() {
     var j = 0;
     let certAdmin = new Certification();
-    certAdmin.setStatus('new');
+    certAdmin.setStatus('新提交');
     let streamAdmin = apiService.certificationsClient.list(certAdmin, apiService.metaData);
     streamAdmin.on('data', response => {
       this.certificationsAdmin[j] = response.toObject();
@@ -28,10 +28,10 @@ export class VerifyPage implements OnInit {
     if (window.confirm('审核通过?')) {
       let tsCertification = new Certification();
       tsCertification.setId(certification.id);
-      tsCertification.setStatus('pass');
+      tsCertification.setStatus('通过');
       apiService.certificationsClient.update(tsCertification, apiService.metaData, (err: grpcWeb.Error, response: Certification) => {
         if (err) {
-          alert(JSON.stringify(err));
+          utilService.alert(JSON.stringify(err));
         } else {
           //refresh
           this.certificationsAdmin = [];

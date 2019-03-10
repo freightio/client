@@ -11,6 +11,11 @@ import { utilService, apiService } from '../../providers/util.service';
 })
 export class CertificationPage implements OnInit {
   certifications = [];
+  options: CameraOptions = {
+    destinationType: this.camera.DestinationType.DATA_URL,
+    encodingType: this.camera.EncodingType.JPEG,
+    mediaType: this.camera.MediaType.PICTURE
+  }
 
   constructor(private camera: Camera) { }
 
@@ -29,25 +34,40 @@ export class CertificationPage implements OnInit {
     let certification = new Certification();
     certification.setUserid(utilService.getUser().id);
     certification.setName(name);
-    certification.setStatus('new');
-    const options: CameraOptions = {
-      destinationType: this.camera.DestinationType.DATA_URL,
-      encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE
-    }
+    certification.setStatus('新提交');
 
-    this.camera.getPicture(options).then((imageData) => {
+    this.camera.getPicture(this.options).then((imageData) => {
       let base64Image = 'data:image/jpeg;base64,' + imageData;
       certification.setImagedata(base64Image);
       apiService.certificationsClient.add(certification, apiService.metaData, (err: grpcWeb.Error, response: Certification) => {
         if (err) {
-          alert(JSON.stringify(err));
+          utilService.alert(JSON.stringify(err));
         } else {
           this.ngOnInit();
         }
       });
     }, (err) => {
-      alert(JSON.stringify(err));
+      utilService.alert(JSON.stringify(err));
+    });
+  }
+
+  updatePhoto(id: string) {
+    let certification = new Certification();
+    certification.setId(id);
+    certification.setStatus('新提交');
+
+    this.camera.getPicture(this.options).then((imageData) => {
+      let base64Image = 'data:image/jpeg;base64,' + imageData;
+      certification.setImagedata(base64Image);
+      apiService.certificationsClient.update(certification, apiService.metaData, (err: grpcWeb.Error, response: Certification) => {
+        if (err) {
+          utilService.alert(JSON.stringify(err));
+        } else {
+          this.ngOnInit();
+        }
+      });
+    }, (err) => {
+      utilService.alert(JSON.stringify(err));
     });
   }
 }
