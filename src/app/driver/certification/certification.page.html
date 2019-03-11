@@ -47,7 +47,10 @@
         <img [src]="certification.imagedata" height="150px" width="150px">
       </ion-col>
       <ion-col text-center>
-        <ion-icon (click)="updatePhoto(certification.id)" name="refresh"></ion-icon><br />
+        <div *ngIf="certification.status != '通过'">
+          <ion-icon (click)="updatePhoto(certification.id)" name="refresh"></ion-icon>
+          <br />
+        </div>
         状态[{{certification.status}}]
       </ion-col>
     </ion-row>
