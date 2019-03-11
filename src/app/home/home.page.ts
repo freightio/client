@@ -80,7 +80,7 @@ export class HomePage implements OnInit {
   }
 
   async presentFromModal() {
-    this.subscription.unsubscribe();
+    this.ionViewWillLeave();
     const modal = await this.modalController.create({
       component: ModalComponent,
       componentProps: { value: 123 }
@@ -90,9 +90,11 @@ export class HomePage implements OnInit {
     const result = await modal.onDidDismiss();
     // this.from = result;
     this.order.from = result.data;
+    this.ionViewDidEnter();
   }
 
-  async presentToModal() {    
+  async presentToModal() {
+    this.ionViewWillLeave();
     const modal = await this.modalController.create({
       component: ModalComponent,
       componentProps: { value: 123 }
@@ -103,6 +105,7 @@ export class HomePage implements OnInit {
     this.to = result.data;
     this.order.tos = [result.data];
     this.computeFee();
+    this.ionViewDidEnter();
   }
 
   computeFee() {

@@ -39,17 +39,6 @@
     </ion-card-content>
   </ion-card>
   <ion-grid>
-    <ion-row align-items-center>
-      <ion-col text-center>
-        证件名
-      </ion-col>
-      <ion-col text-center>
-        证件照片
-      </ion-col>
-      <ion-col text-center>
-        状态
-      </ion-col>
-    </ion-row>
     <ion-row *ngFor="let certification of certifications" align-items-center>
       <ion-col text-center>
         {{certification.name}}
@@ -58,7 +47,7 @@
         <img [src]="certification.imagedata" height="150px" width="150px">
       </ion-col>
       <ion-col text-center>
-        {{certification.status}}
+        状态[{{certification.status}}]<br />
         <ion-icon (click)="updatePhoto(certification.id)" name="refresh"></ion-icon>
       </ion-col>
     </ion-row>

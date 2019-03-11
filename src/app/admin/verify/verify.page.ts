@@ -25,7 +25,7 @@ export class VerifyPage implements OnInit {
   }
 
   review(certification, status: string) {
-    if (window.confirm('审核通过?')) {
+    if (window.confirm('审核结果['+status+']?')) {
       let tsCertification = new Certification();
       tsCertification.setId(certification.id);
       tsCertification.setStatus(status);

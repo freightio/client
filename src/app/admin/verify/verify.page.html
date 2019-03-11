@@ -17,15 +17,15 @@
   <ion-grid>
     <ion-row *ngFor="let certification of certificationsAdmin" align-items-center>
       <ion-col text-center>
-        {{certification.userid}}|<br />
+        {{certification.userid}}<br />
         {{certification.name}}
       </ion-col>
       <ion-col text-center>
         <img [src]="certification.imagedata" height="150px" width="150px">
       </ion-col>
       <ion-col text-center>
-        <ion-icon name="checkmark-circle" (click)="review(certification,'通过')"></ion-icon>
-        <ion-icon name="close-circle" (click)="review(certification,'请重传')"></ion-icon>
+        <ion-icon name="checkmark" (click)="review(certification,'通过')"></ion-icon>
+        <ion-icon name="close" (click)="review(certification,'请重传')"></ion-icon>
       </ion-col>
     </ion-row>
   </ion-grid>
