@@ -24,11 +24,11 @@ export class VerifyPage implements OnInit {
     });
   }
 
-  pass(certification) {
+  review(certification, status: string) {
     if (window.confirm('审核通过?')) {
       let tsCertification = new Certification();
       tsCertification.setId(certification.id);
-      tsCertification.setStatus('通过');
+      tsCertification.setStatus(status);
       apiService.certificationsClient.update(tsCertification, apiService.metaData, (err: grpcWeb.Error, response: Certification) => {
         if (err) {
           utilService.alert(JSON.stringify(err));

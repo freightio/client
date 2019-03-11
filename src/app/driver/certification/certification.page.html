@@ -39,6 +39,17 @@
     </ion-card-content>
   </ion-card>
   <ion-grid>
+    <ion-row align-items-center>
+      <ion-col text-center>
+        证件名
+      </ion-col>
+      <ion-col text-center>
+        证件照片
+      </ion-col>
+      <ion-col text-center>
+        状态
+      </ion-col>
+    </ion-row>
     <ion-row *ngFor="let certification of certifications" align-items-center>
       <ion-col text-center>
         {{certification.name}}
@@ -52,21 +63,4 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-  <!-- </ion-tab>
-    <ion-tab-bar slot="bottom">
-      <ion-tab-button tab="home" href="/grab">
-        <ion-label>抢单</ion-label>
-        <ion-icon name="home"></ion-icon>
-      </ion-tab-button>
-      <ion-tab-button href="/ongoing">
-        <ion-label>进行中</ion-label>
-        <ion-icon name="settings"></ion-icon>
-        <ion-badge>6</ion-badge>
-      </ion-tab-button>
-      <ion-tab-button tab="certification">
-        <ion-label>认证</ion-label>
-        <ion-icon name="key"></ion-icon>
-      </ion-tab-button>
-    </ion-tab-bar>
-  </ion-tabs> -->
 </ion-content>
