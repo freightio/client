@@ -47,8 +47,8 @@
         <img [src]="certification.imagedata" height="150px" width="150px">
       </ion-col>
       <ion-col text-center>
-        状态[{{certification.status}}]<br />
-        <ion-icon (click)="updatePhoto(certification.id)" name="refresh"></ion-icon>
+        <ion-icon (click)="updatePhoto(certification.id)" name="refresh"></ion-icon><br />
+        状态[{{certification.status}}]
       </ion-col>
     </ion-row>
   </ion-grid>
