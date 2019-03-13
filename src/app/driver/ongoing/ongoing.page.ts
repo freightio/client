@@ -44,7 +44,7 @@ export class OngoingPage implements OnInit {
               this.orders[i].to = tsOrder.getTosList()[0].toObject();
             }
             this.orders[i].fee = tsOrder.getFee().toFixed(2);
-            this.orders[i].created = tsOrder.getCreated().toDate();
+            this.orders[i].start = tsOrder.getStart().toDate();
           };
         }
       });

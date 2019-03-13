@@ -16,7 +16,7 @@
         <div *ngIf="isDisplay">
           <ion-item>
             <ion-icon name="time"></ion-icon>
-            {{order.created | date:'MM-dd HH:mm'}}
+            {{order.start | date:'MM-dd HH:mm'}}
             <ion-text slot="end">
               {{order.type}}
             </ion-text>

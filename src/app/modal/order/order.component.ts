@@ -26,9 +26,9 @@ export class OrderComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    let created = new Date();
-    created.setMinutes(created.getMinutes() + 5);
-    this.order.created = created;
+    let start = new Date();
+    start.setMinutes(start.getMinutes() + 5);
+    this.order.start = start;
     this.order.sender = new Sender().toObject();
   }
 
@@ -109,7 +109,7 @@ export class OrderComponent implements OnInit {
             this.addOrder(payInfo);
           }, (error) => {
             console.log(error);
-            alert('error:' + JSON.stringify(error));
+            utilService.alert('error:' + JSON.stringify(error));
           });
         }
       });
@@ -135,8 +135,8 @@ export class OrderComponent implements OnInit {
     tsOrder.setType(this.order.type);
     tsOrder.setFee(this.order.fee);
 
-    tsOrder.setCreated(new Timestamp());
-    tsOrder.getCreated().fromDate(this.order.created);
+    tsOrder.setStart(new Timestamp());
+    tsOrder.getStart().fromDate(this.order.start);
     tsOrder.setComment(this.order.comment);
     tsOrder.setPayinfo(payInfo);
     apiService.ordersClient.add(tsOrder, apiService.metaData,

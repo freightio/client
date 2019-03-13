@@ -4,20 +4,28 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>我的钱包</ion-title>
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-icon name="paw"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-card>
+  <ion-card color="light">
+    <ion-item>
+      <ion-icon name="gift" slot="start"></ion-icon>
+      <ion-label>当前余额</ion-label>
+    </ion-item>
     <ion-card-header>
-      <ion-card-subtitle>当前余额</ion-card-subtitle>
+      <ion-card-subtitle></ion-card-subtitle>
       <ion-card-title>¥{{account.fee}}</ion-card-title>
     </ion-card-header>
 
     <ion-card-content>
-      Keep close to Nature's heart... and break clear away, once in awhile,
-      and climb a mountain or spend a week in the woods. Wash your spirit clean.
+      <br /><br /><br />
     </ion-card-content>
-    <ion-button color="success" shape="round">去充值</ion-button>
+    <ion-button *ngIf="false" color="success" shape="round">去充值</ion-button>
   </ion-card>
 </ion-content>
