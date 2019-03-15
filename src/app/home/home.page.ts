@@ -4,9 +4,7 @@ import { ModalController, IonSlides, Platform, AlertController } from '@ionic/an
 import { ModalComponent } from '../modal/map/modal.component';
 import { OrderComponent } from '../modal/order/order.component';
 import { apiService, utilService } from '../providers/util.service';
-import * as grpcWeb from 'grpc-web';
 import { Order } from '../../sdk/order_pb';
-import { VehicleList } from '../../sdk/vehicle_pb';
 import { Empty } from "google-protobuf/google/protobuf/empty_pb";
 
 declare var AMap;
@@ -39,19 +37,18 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
-    apiService.vehiclesClient.list(new Empty(), apiService.metaData,
-      (err: grpcWeb.Error, response: VehicleList) => {
-        if (err) {
-          console.log(err);
-          this.ngOnInit();
-        }
-        for (var i in response.getItemsList()) {
-          let tsVehicle = response.getItemsList()[i]
-          this.vehicles[i] = tsVehicle.toObject();
-        }
-        this.currentVehicle = this.vehicles[0];
-        this.order.type = this.currentVehicle.name;
-      });
+    var i = 0;
+    let stream = apiService.vehiclesClient.list(new Empty(), apiService.metaData);
+    stream.on('data', response => {
+      this.vehicles[i] = response.toObject();
+      this.currentVehicle = this.vehicles[0];
+      this.order.type = this.currentVehicle.name;
+      i++;
+      this.vehicles = this.vehicles.slice(0, i);
+    });
+    stream.on('error', err => {
+      console.log(err);
+    });
   }
   // Method executed when the slides are changed
   public slideChanged(): void {

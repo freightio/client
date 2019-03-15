@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { User } from '../../../sdk/user_pb';
 import { Account } from '../../../sdk/wallet_pb';
-import { OrderList, Order } from '../../../sdk/order_pb';
+import { Order } from '../../../sdk/order_pb';
 import { utilService, apiService } from '../../providers/util.service';
 
 declare var startApp;
@@ -25,29 +25,26 @@ export class OngoingPage implements OnInit {
   }
 
   load() {
+    var i = 0;
     const tsUser = new User();
     tsUser.setId(utilService.getUser().id);
-    apiService.ordersClient.listByUser(tsUser, apiService.metaData,
-      (err: grpcWeb.Error, response: OrderList) => {
-        if (err) {
-          console.log(err);
-        } else {
-          let tsOrders = response.getItemsList().filter(order => order.getStatus() == 'accept');
-          if (tsOrders.length == this.orders.length) {
-            return
-          }
-          this.orders = [];
-          for (var i in tsOrders) {
-            let tsOrder = tsOrders[i]
-            this.orders[i] = tsOrder.toObject();
-            if (tsOrder.getTosList()[0] != null) {
-              this.orders[i].to = tsOrder.getTosList()[0].toObject();
-            }
-            this.orders[i].fee = tsOrder.getFee().toFixed(2);
-            this.orders[i].start = tsOrder.getStart().toDate();
-          };
+    let stream = apiService.ordersClient.listByUser(tsUser, apiService.metaData)
+    stream.on('data', response => {
+      if (response.toObject().status == 'accept') {
+        this.orders[i] = response.toObject();
+        if (response.getTosList()[0] != null) {
+          this.orders[i].to = response.getTosList()[0].toObject();
         }
-      });
+        this.orders[i].fee = response.getFee().toFixed(2);
+        this.orders[i].start = response.getStart().toDate();
+      }
+      i++;
+      this.orders = this.orders.slice(0, i);
+    });
+    stream.on('error', err => {
+      console.log(err);
+      //this.load();
+    });
   }
 
   async navigate(order: any) {

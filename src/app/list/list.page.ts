@@ -1,5 +1,3 @@
-import * as grpcWeb from 'grpc-web';
-import { OrderList } from '../../sdk/order_pb';
 import { User } from '../../sdk/user_pb';
 import { AlertController } from '@ionic/angular';
 import { Component, OnInit } from '@angular/core';
@@ -25,25 +23,25 @@ export class ListPage implements OnInit {
   }
 
   load() {
+    var i = 0;
     const tsUser = new User();
     tsUser.setId(utilService.getUser().id);
-    apiService.ordersClient.listByUser(tsUser, apiService.metaData,
-      (err: grpcWeb.Error, response: OrderList) => {
-        if (err) {
-          console.log(err);
-        } else {
-          for (var i in response.getItemsList()) {
-            let tsOrder = response.getItemsList()[i]
-            this.orders[i] = tsOrder.toObject();
-            if (tsOrder.getTosList()[0] != null) {
-              this.orders[i].to = tsOrder.getTosList()[0].toObject();
-            }
-            this.orders[i].fee = tsOrder.getFee().toFixed(2);
-            this.orders[i].created = tsOrder.getCreated().toDate();
-          };
+    let stream = apiService.ordersClient.listByUser(tsUser, apiService.metaData);
+    stream.on('data', response => {
+      if (response.getStatus() == this.status) {
+        this.orders[i] = response.toObject();
+        if (response.getTosList()[0] != null) {
+          this.orders[i].to = response.getTosList()[0].toObject();
         }
-        this.orders = this.orders.filter(order => order.status == this.status);
-      });
+        this.orders[i].fee = response.getFee().toFixed(2);
+        this.orders[i].created = response.getCreated().toDate();
+        i++;
+        this.orders = this.orders.slice(0, i);
+      }
+    });
+    stream.on('error', err => {
+      console.log(err);
+    });
   }
 
   refresh(event: any) {
