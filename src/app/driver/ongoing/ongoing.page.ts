@@ -37,9 +37,9 @@ export class OngoingPage implements OnInit {
         }
         this.orders[i].fee = response.getFee().toFixed(2);
         this.orders[i].start = response.getStart().toDate();
+        i++;
+        this.orders = this.orders.slice(0, i);
       }
-      i++;
-      this.orders = this.orders.slice(0, i);
     });
     stream.on('error', err => {
       console.log(err);
