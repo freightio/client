@@ -48,13 +48,14 @@ export class HomePage implements OnInit {
     });
     stream.on('error', err => {
       console.log(err);
+      utilService.alert(err.message, err.code + '');
     });
   }
   // Method executed when the slides are changed
   public slideChanged(): void {
     this.slides.getActiveIndex().then(e => {
       this.showLeftButton = e !== 0;
-    });
+    });;
     this.slides.length().then(e => {
       this.showRightButton = e !== Math.ceil(e / 4);
     });
