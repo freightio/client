@@ -30,8 +30,9 @@ export class OngoingPage implements OnInit {
     tsUser.setId(utilService.getUser().id);
     let stream = apiService.ordersClient.listByUser(tsUser, apiService.metaData)
     stream.on('data', response => {
-      if (response.toObject().status == 'accept') {
+      if (response.getStatus() == 'accept') {
         if (this.orders[i] != null && this.orders[i].id == response.getId()) {
+          i++;
           return
         }
         this.orders[i] = response.toObject();

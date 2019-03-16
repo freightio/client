@@ -4,8 +4,9 @@ import { Contacts } from '@ionic-native/contacts/ngx';
 import * as grpcWeb from 'grpc-web';
 import { Account } from '../../../sdk/wallet_pb';
 import { apiService, utilService } from '../../providers/util.service';
-import { Order, Position, Sender, SignReply, PayInfo } from '../../../sdk/order_pb';
+import { Order, Position, Sender, PayInfo } from '../../../sdk/order_pb';
 import { Timestamp } from 'google-protobuf/google/protobuf/timestamp_pb';
+import { StringValue } from "google-protobuf/google/protobuf/wrappers_pb";
 
 declare let cordova;
 //declare var proto;
@@ -95,11 +96,11 @@ export class OrderComponent implements OnInit {
     let tsOrder = new Order();
     tsOrder.setFee(this.order.fee);
     apiService.ordersClient.signAlipay(tsOrder, apiService.metaData,
-      (err: grpcWeb.Error, response: SignReply) => {
+      (err: grpcWeb.Error, response: StringValue) => {
         if (err) {
-          alert(err.message)
+          utilService.alert(err.message)
         } {
-          let payInfo = response.getSigned();
+          let payInfo = response.getValue();
           cordova.plugins.alipay.payment(payInfo, (success) => {
             console.log(success);
             //alert('success:' + JSON.stringify(success));
