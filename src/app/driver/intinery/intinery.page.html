@@ -16,7 +16,7 @@
         <div *ngIf="isDisplay">
           <ion-item>
             <ion-icon name="time"></ion-icon>
-            {{order.start | date:'MM-dd HH:mm'}}
+            {{order.start?.seconds*1000 | date:'MM-dd HH:mm'}}
             <ion-text slot="end">
               {{order.type}}
             </ion-text>
@@ -28,11 +28,11 @@
             <ion-label>
               <h3>{{order.from.name}}</h3>
               <p>{{order.from.address}}</p>
-              <h3>{{order.to.name}}</h3>
-              <p>{{order.to.address}}</p>
+              <h3>{{order.tosList[0]?.name}}</h3>
+              <p>{{order.tosList[0]?.address}}</p>
             </ion-label>
             <ion-text color="danger">
-              {{order.fee}}元
+              {{order.fee.toFixed(2)}}元
             </ion-text>
           </ion-item>
           <ion-item *ngIf="order.comment">
