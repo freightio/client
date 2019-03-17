@@ -52,7 +52,7 @@ export class GrabPage implements OnInit {
     }, 1000);
   }
 
-  async showUserDetail(order) {
+  async showUserDetail(order: Order.AsObject) {
     utilService.order = order;
     this.router.navigateByUrl('/intinery');
   }

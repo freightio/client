@@ -50,7 +50,7 @@ export class IntineryPage implements OnInit {
         map: this.map
       })
       var startLngLat = this.order.from.location.split(','); //[116.379028, 39.865042]
-      var endLngLat = this.order.to.location.split(',');//[116.427281, 39.903719]
+      var endLngLat = this.order.tosList[0].location.split(',');//[116.427281, 39.903719]
       driving.search(startLngLat, endLngLat, function (status, result) {
         //console.log(result);
       })

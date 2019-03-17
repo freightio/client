@@ -46,7 +46,7 @@ export class OngoingPage implements OnInit {
     });
   }
 
-  async navigate(order: any) {
+  async navigate(order: Order.AsObject) {
     const alert = await this.alertController.create({
       header: '开启导航?',
       buttons: [
@@ -55,7 +55,7 @@ export class OngoingPage implements OnInit {
         }, {
           text: '确定',
           handler: data => {
-            var endLngLat = order.to.location.split(',');
+            var endLngLat = order.tosList[0].location.split(',');
             let gaodeApp = startApp.set(
               {
                 'action': 'ACTION_VIEW',

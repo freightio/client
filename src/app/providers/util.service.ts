@@ -6,13 +6,14 @@ import { OrdersClient } from '../../sdk/order_grpc_web_pb';
 import { VehiclesClient } from '../../sdk/vehicle_grpc_web_pb';
 import { CertificationsClient } from '../../sdk/user_grpc_web_pb';
 import { environment } from '../../environments/environment';
+import { Order } from '../../sdk/order_pb';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UtilService {
   injector: Injector;
-  order: any;
+  order: Order.AsObject;
 
   getUser() {
     let localUser = window.localStorage.getItem('user');
