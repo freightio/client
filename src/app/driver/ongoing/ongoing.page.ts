@@ -14,7 +14,7 @@ declare var startApp;
   styleUrls: ['./ongoing.page.scss'],
 })
 export class OngoingPage implements OnInit {
-  orders = [];
+  orders:Order.AsObject[] = [];
 
   constructor(private alertController: AlertController) { }
 
@@ -36,11 +36,6 @@ export class OngoingPage implements OnInit {
           return
         }
         this.orders[i] = response.toObject();
-        if (response.getTosList()[0] != null) {
-          this.orders[i].to = response.getTosList()[0].toObject();
-        }
-        this.orders[i].fee = response.getFee().toFixed(2);
-        this.orders[i].start = response.getStart().toDate();
         i++;
         this.orders = this.orders.slice(0, i);
       }

@@ -16,7 +16,7 @@
     <ion-card-header>
       <ion-card-subtitle>{{order.type}}</ion-card-subtitle>
       <ion-item>
-        <ion-label>{{order.start | date:'yyyy,MM-dd HH:mm'}}</ion-label>
+        <ion-label>{{order.start?.seconds*1000 | date:'yyyy,MM-dd HH:mm'}}</ion-label>
         <ion-toggle slot="end"></ion-toggle>
       </ion-item>
     </ion-card-header>
@@ -25,7 +25,7 @@
         <ion-icon name="log-out"></ion-icon>{{order.from?.address}}
       </p>
       <p>
-        <ion-icon name="log-in"></ion-icon>{{order.to?.address}}
+        <ion-icon name="log-in"></ion-icon>{{order.tosList[0]?.address}}
       </p>
     </ion-card-content>
     <ion-item>

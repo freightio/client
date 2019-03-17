@@ -28,7 +28,7 @@
   <ion-card *ngFor="let order of orders" (click)="showUserDetail(order)">
     <ion-item class="activated">
       <ion-label>{{order.sender?.name}}</ion-label>
-      <ion-badge color="secondary" slot="end">距您{{order?.annotations?.get('distance')}}公里</ion-badge>
+      <ion-badge color="secondary" slot="end">距您{{order?.annotationsMap?.distance}}公里</ion-badge>
       <ion-icon name="pin" slot="end"></ion-icon>
     </ion-item>
     <ion-row>
@@ -36,16 +36,16 @@
         <ion-row>
           <ion-item>
             <ion-icon name="wifi" slot="start"></ion-icon>
-            <ion-label>{{order.start | date:'MM/dd H:mm'}}</ion-label>
+            <ion-label>{{order.start?.seconds*1000 | date:'MM/dd H:mm'}}</ion-label>
           </ion-item>
         </ion-row>
         <ion-row>起点:{{order.from?.address}}</ion-row>
-        <ion-row>终点:{{order.to?.address}}</ion-row>
+        <ion-row>终点:{{order.tosList[0]?.address}}</ion-row>
         <ion-row>
           <h6>需要车型:{{order.type}}</h6>
         </ion-row>
       </ion-col>
-      <ion-col text-center align-self-center style="font-size: 20px;color: red;font-weight: bolder">{{order.fee}}元</ion-col>
+      <ion-col text-center align-self-center style="font-size: 20px;color: red;font-weight: bolder">{{order.fee.toFixed(2)}}元</ion-col>
     </ion-row>
   </ion-card>
 </ion-content>

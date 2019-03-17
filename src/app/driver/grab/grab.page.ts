@@ -1,7 +1,7 @@
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
-import { Position } from '../../../sdk/order_pb';
+import { Position, Order } from '../../../sdk/order_pb';
 import { utilService, apiService } from '../../providers/util.service';
 
 //declare var proto;
@@ -13,7 +13,7 @@ declare var AMap;
   styleUrls: ['./grab.page.scss'],
 })
 export class GrabPage implements OnInit {
-  orders = [];
+  orders: Order.AsObject[] = [];
 
   constructor(
     private router: Router,
@@ -34,11 +34,6 @@ export class GrabPage implements OnInit {
       let stream = apiService.ordersClient.listByPositon(positon, apiService.metaData);
       stream.on('data', response => {
         this.orders[i] = response.toObject();
-        if (response.getTosList()[0] != null) {
-          this.orders[i].to = response.getTosList()[0].toObject();
-        }
-        this.orders[i].start = response.getStart().toDate();
-        this.orders[i].fee = response.getFee().toFixed(2);
         this.loadDistance(this.orders[i]);
         i++;
         this.orders = this.orders.slice(0, i);
@@ -62,15 +57,12 @@ export class GrabPage implements OnInit {
     this.router.navigateByUrl('/intinery');
   }
 
-  loadDistance(order) {
+  loadDistance(order: Order.AsObject) {
     this.geolocation.getCurrentPosition().then(res => {
       let p1 = ['' + res.coords.longitude, '' + res.coords.latitude]
       let p2 = order.from.location.split(',')
       const dis = AMap.GeometryUtil.distance(p1, p2);
-      if (!order.annotations) {
-        order.annotations = new Map();
-      }
-      order.annotations.set('distance', Math.trunc(dis / 1000));
+      order.annotationsMap['distance'] = Math.trunc(dis / 1000);
     }).catch(e => {
       console.log(e);
     });

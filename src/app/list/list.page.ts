@@ -1,4 +1,5 @@
 import { User } from '../../sdk/user_pb';
+import { Order } from '../../sdk/order_pb';
 import { AlertController } from '@ionic/angular';
 import { Component, OnInit } from '@angular/core';
 import { utilService, apiService } from '../providers/util.service';
@@ -11,7 +12,7 @@ declare var startApp;
   styleUrls: ['list.page.scss']
 })
 export class ListPage implements OnInit {
-  orders: any[];
+  orders: Order.AsObject[] = [];
   status = 'accept';
 
   constructor(private alertController: AlertController) {
@@ -30,11 +31,6 @@ export class ListPage implements OnInit {
     stream.on('data', response => {
       if (response.getStatus() == this.status) {
         this.orders[i] = response.toObject();
-        if (response.getTosList()[0] != null) {
-          this.orders[i].to = response.getTosList()[0].toObject();
-        }
-        this.orders[i].fee = response.getFee().toFixed(2);
-        this.orders[i].created = response.getCreated().toDate();
         i++;
       }
       this.orders = this.orders.slice(0, i);
