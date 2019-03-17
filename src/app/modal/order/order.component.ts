@@ -17,7 +17,7 @@ declare let cordova;
   styleUrls: ['./order.component.scss']
 })
 export class OrderComponent implements OnInit {
-  order = this.navParams.get('order');
+  order: Order.AsObject = this.navParams.get('order');
 
   constructor(
     private navParams: NavParams,
@@ -29,7 +29,9 @@ export class OrderComponent implements OnInit {
   ngOnInit() {
     let start = new Date();
     start.setMinutes(start.getMinutes() + 5);
-    this.order.start = start;
+    let tt = new Timestamp();
+    tt.fromDate(start)
+    this.order.start = tt.toObject();
     this.order.sender = new Sender().toObject();
   }
 
@@ -129,21 +131,21 @@ export class OrderComponent implements OnInit {
     tsOrder.getFrom().setAddress(this.order.from.address);
 
     tsOrder.setTosList([new Position()])
-    tsOrder.getTosList()[0].setName(this.order.tos[0].name);
-    tsOrder.getTosList()[0].setLocation(this.order.tos[0].location);
-    tsOrder.getTosList()[0].setAddress(this.order.tos[0].address);
+    tsOrder.getTosList()[0].setName(this.order.tosList[0].name);
+    tsOrder.getTosList()[0].setLocation(this.order.tosList[0].location);
+    tsOrder.getTosList()[0].setAddress(this.order.tosList[0].address);
 
     tsOrder.setType(this.order.type);
     tsOrder.setFee(this.order.fee);
 
     tsOrder.setStart(new Timestamp());
-    tsOrder.getStart().fromDate(this.order.start);
+    tsOrder.getStart().setSeconds(this.order.start.seconds);
     tsOrder.setComment(this.order.comment);
     tsOrder.setPayinfo(payInfo);
     apiService.ordersClient.add(tsOrder, apiService.metaData,
       (err: grpcWeb.Error, response: Order) => {
         if (err) {
-          alert(err.message);
+          utilService.alert(err.message);
         }
         console.log(response);
         this.modalController.dismiss();

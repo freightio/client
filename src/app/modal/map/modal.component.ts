@@ -1,3 +1,4 @@
+import { Position } from '../../../sdk/order_pb';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 
@@ -12,7 +13,7 @@ declare var AMapUI;
 export class ModalComponent implements OnInit {
   @ViewChild('map_container') map_container: ElementRef;
   map: any; // 地图对象
-  currentPosition: any;
+  currentPosition: Position.AsObject;
   positionName: any;
 
   constructor(private modalController: ModalController) { }
@@ -56,9 +57,9 @@ export class ModalComponent implements OnInit {
         console.log(positionResult);
         //this.pois = positionResult.regeocode.pois;
         this.currentPosition = {
-          'name': positionResult.nearestPOI,
-          'address': positionResult.address,
-          'location': positionResult.position.P + ',' + positionResult.position.O
+          name: positionResult.nearestPOI,
+          address: positionResult.address,
+          location: positionResult.position.P + ',' + positionResult.position.O
         }
 
         const positionInfo = [positionResult.position.P + '', positionResult.position.O + ''];

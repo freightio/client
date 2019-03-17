@@ -5,6 +5,7 @@ import { ModalComponent } from '../modal/map/modal.component';
 import { OrderComponent } from '../modal/order/order.component';
 import { apiService, utilService } from '../providers/util.service';
 import { Order } from '../../sdk/order_pb';
+import { Vehicle } from '../../sdk/vehicle_pb';
 import { Empty } from "google-protobuf/google/protobuf/empty_pb";
 
 declare var AMap;
@@ -17,12 +18,11 @@ declare var AMap;
 })
 export class HomePage implements OnInit {
   @ViewChild(IonSlides) slides: IonSlides;
-  vehicles = [];
-  currentVehicle: any;
+  vehicles: Vehicle.AsObject[] = [];
+  currentVehicle: Vehicle.AsObject;
   showLeftButton = false;
   showRightButton = true;
-  to: any;
-  order: any;
+  order = new Order().toObject();
   sliderConfig = {
     slidesPerView: 4,
     effect: 'flip'
@@ -33,7 +33,7 @@ export class HomePage implements OnInit {
     private router: Router,
     private platform: Platform,
     private modalController: ModalController) {
-    this.order = new Order().toObject();
+    //this.order = new Order().toObject();
     this.load(); // workaround to avoid empty for the first time
   }
 
@@ -91,7 +91,6 @@ export class HomePage implements OnInit {
 
     await modal.present();
     const result = await modal.onDidDismiss();
-    // this.from = result;
     this.order.from = result.data;
     this.ionViewDidEnter();
   }
@@ -105,16 +104,15 @@ export class HomePage implements OnInit {
 
     await modal.present();
     const result = await modal.onDidDismiss();
-    this.to = result.data;
-    this.order.tos = [result.data];
+    this.order.tosList = [result.data];
     this.computeFee();
     this.ionViewDidEnter();
   }
 
   computeFee() {
-    if (this.order.from && this.order.tos[0]) {
+    if (this.order.from && this.order.tosList[0]) {
       const p1 = this.order.from.location.split(',');
-      const p2 = this.order.tos[0].location.split(',');
+      const p2 = this.order.tosList[0].location.split(',');
       // 返回 p1 到 p2 间的地面距离，单位：米
       console.log('hp1', p1);
       console.log('hp2', p2);
@@ -122,7 +120,7 @@ export class HomePage implements OnInit {
       if (dis < this.currentVehicle.price.start.distance) {
         this.order.fee = this.currentVehicle.price.start.fee;
       } else {
-        this.order.fee = (dis * this.currentVehicle.price.then).toFixed(2);
+        this.order.fee = dis * this.currentVehicle.price.then;
       }
       //this.fee = dis * this.currentFreight.price / 1000;
       //this.order.fee = (dis * this.currentFreight.price / 1000).toFixed(2);
@@ -139,7 +137,7 @@ export class HomePage implements OnInit {
       return
     }
 
-    if (!this.order.from || !this.order.tos) {
+    if (!this.order.from || !this.order.tosList[0]) {
       utilService.alert('订单起点与终点不能为空!');
       return
     }
