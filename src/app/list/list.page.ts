@@ -36,8 +36,8 @@ export class ListPage implements OnInit {
         this.orders[i].fee = response.getFee().toFixed(2);
         this.orders[i].created = response.getCreated().toDate();
         i++;
-        this.orders = this.orders.slice(0, i);
       }
+      this.orders = this.orders.slice(0, i);
     });
     stream.on('error', err => {
       console.log(err);

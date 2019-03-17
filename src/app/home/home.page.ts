@@ -34,9 +34,14 @@ export class HomePage implements OnInit {
     private platform: Platform,
     private modalController: ModalController) {
     this.order = new Order().toObject();
+    this.load(); // workaround to avoid empty for the first time
   }
 
   ngOnInit() {
+    this.load();
+  }
+
+  load() {
     var i = 0;
     let stream = apiService.vehiclesClient.list(new Empty(), apiService.metaData);
     stream.on('data', response => {
