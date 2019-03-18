@@ -79,7 +79,7 @@ export class IntineryPage implements OnInit {
             });
         }
       } else {
-        alert('请认证后再接单！')
+        utilService.alert('请认证后再接单！')
       }
     });
   }

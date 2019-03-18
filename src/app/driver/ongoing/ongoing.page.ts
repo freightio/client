@@ -14,7 +14,7 @@ declare var startApp;
   styleUrls: ['./ongoing.page.scss'],
 })
 export class OngoingPage implements OnInit {
-  orders:Order.AsObject[] = [];
+  orders: Order.AsObject[] = [];
 
   constructor(private alertController: AlertController) { }
 
@@ -78,7 +78,7 @@ export class OngoingPage implements OnInit {
     await alert.present();
   }
 
-  async finish(order) {
+  async finish(order: Order.AsObject) {
     if (order.status != 'accept') {
       return
     }
