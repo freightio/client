@@ -11,8 +11,8 @@
 
 <ion-content>
   <div #map_container class="map_container">
-    <div style="position:absolute; width: 100%;z-index: 9999" id="detail_order">
-      <ion-item-group (click)="hidden()">
+    <div ontouchmove="onSwipe($event)" style="position:absolute; width: 100%;z-index: 9999" id="detail_order">
+      <ion-item-group>
         <div *ngIf="isDisplay">
           <ion-item>
             <ion-icon name="time"></ion-icon>

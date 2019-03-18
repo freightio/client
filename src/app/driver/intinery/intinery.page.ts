@@ -87,4 +87,11 @@ export class IntineryPage implements OnInit {
   public hidden() {
     this.isDisplay = !this.isDisplay
   }
+
+  onSwipe(evt) {
+    const x = Math.abs(evt.deltaX) > 40 ? (evt.deltaX > 0 ? 'right' : 'left') : '';
+    const y = Math.abs(evt.deltaY) > 40 ? (evt.deltaY > 0 ? 'down' : 'up') : '';
+    utilService.alert(x + y);
+    this.hidden();
+  }
 }
