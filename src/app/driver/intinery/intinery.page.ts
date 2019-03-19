@@ -107,6 +107,7 @@ export class IntineryPage implements OnInit {
     };
 
     function moveTouch(e) {
+      e.preventDefault();
       if (initialX === null) {
         return;
       }
