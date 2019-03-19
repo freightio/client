@@ -18,6 +18,10 @@ export class IntineryPage implements OnInit {
   map: any;
   order = utilService.order;
   isDisplay = true;
+  // Swipe Up / Down / Left / Right
+  initialX = null;
+  initialY = null;
+
 
   constructor(private router: Router) { }
 
@@ -85,66 +89,55 @@ export class IntineryPage implements OnInit {
     this.isDisplay = !this.isDisplay
   }
 
-  onSwipe(evt) {
-    const x = Math.abs(evt.deltaX) > 40 ? (evt.deltaX > 0 ? 'right' : 'left') : '';
-    const y = Math.abs(evt.deltaY) > 40 ? (evt.deltaY > 0 ? 'down' : 'up') : '';
-    utilService.alert(x + y);
-    this.hidden();
-  }
-
   ionViewDidEnter() {
-    document.getElementById('detail_order').addEventListener("touchstart", startTouch, false);
-    document.getElementById('detail_order').addEventListener("touchmove", moveTouch, false);
+    document.getElementById('detail_order').addEventListener("touchstart", this.startTouch, false);
+    document.getElementById('detail_order').addEventListener("touchmove", this.moveTouch, false);
+  };
 
-    // Swipe Up / Down / Left / Right
-    var initialX = null;
-    var initialY = null;
+  startTouch(e) {
+    this.initialX = e.touches[0].clientX;
+    this.initialY = e.touches[0].clientY;
+  };
 
-    function startTouch(e) {
-      initialX = e.touches[0].clientX;
-      initialY = e.touches[0].clientY;
-    };
+  moveTouch(e) {
+    if (this.initialX === null) {
+      return;
+    }
 
-    function moveTouch(e) {
-      if (initialX === null) {
-        return;
-      }
+    if (this.initialY === null) {
+      return;
+    }
 
-      if (initialY === null) {
-        return;
-      }
+    var currentX = e.touches[0].clientX;
+    var currentY = e.touches[0].clientY;
 
-      var currentX = e.touches[0].clientX;
-      var currentY = e.touches[0].clientY;
+    var diffX = this.initialX - currentX;
+    var diffY = this.initialY - currentY;
 
-      var diffX = initialX - currentX;
-      var diffY = initialY - currentY;
-
-      if (Math.abs(diffX) > Math.abs(diffY)) {
-        // sliding horizontally
-        if (diffX > 0) {
-          // swiped left
-          console.log("swiped left");
-        } else {
-          // swiped right
-          console.log("swiped right");
-        }
+    if (Math.abs(diffX) > Math.abs(diffY)) {
+      // sliding horizontally
+      if (diffX > 0) {
+        // swiped left
+        console.log("swiped left");
       } else {
-        // sliding vertically
-        if (diffY > 0) {
-          // swiped up
-          console.log("swiped up");
-          this.hidden();
-        } else {
-          // swiped down
-          console.log("swiped down");
-        }
+        // swiped right
+        console.log("swiped right");
       }
+    } else {
+      // sliding vertically
+      if (diffY > 0) {
+        // swiped up
+        console.log("swiped up");
+        this.hidden();
+      } else {
+        // swiped down
+        console.log("swiped down");
+      }
+    }
 
-      initialX = null;
-      initialY = null;
+    this.initialX = null;
+    this.initialY = null;
 
-      e.preventDefault();
-    };
+    e.preventDefault();
   }
 }
