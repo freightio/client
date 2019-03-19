@@ -22,9 +22,7 @@ export class IntineryPage implements OnInit {
   constructor(private router: Router) { }
 
   ngOnInit() {
-    document.getElementById('detail_order').ontouchmove = (e) => {
-      this.hidden();
-    };
+    this.listenSwipe();
     this.map = new AMap.Map(this.map_container.nativeElement, {
       view: new AMap.View2D({
         zoom: 11,
@@ -93,5 +91,61 @@ export class IntineryPage implements OnInit {
     const y = Math.abs(evt.deltaY) > 40 ? (evt.deltaY > 0 ? 'down' : 'up') : '';
     utilService.alert(x + y);
     this.hidden();
+  }
+
+  listenSwipe() {
+    document.getElementById('detail_order').addEventListener("touchstart", startTouch, false);
+    document.getElementById('detail_order').addEventListener("touchmove", moveTouch, false);
+
+    // Swipe Up / Down / Left / Right
+    var initialX = null;
+    var initialY = null;
+
+    function startTouch(e) {
+      initialX = e.touches[0].clientX;
+      initialY = e.touches[0].clientY;
+    };
+
+    function moveTouch(e) {
+      if (initialX === null) {
+        return;
+      }
+
+      if (initialY === null) {
+        return;
+      }
+
+      var currentX = e.touches[0].clientX;
+      var currentY = e.touches[0].clientY;
+
+      var diffX = initialX - currentX;
+      var diffY = initialY - currentY;
+
+      if (Math.abs(diffX) > Math.abs(diffY)) {
+        // sliding horizontally
+        if (diffX > 0) {
+          // swiped left
+          console.log("swiped left");
+        } else {
+          // swiped right
+          console.log("swiped right");
+        }
+      } else {
+        // sliding vertically
+        if (diffY > 0) {
+          // swiped up
+          console.log("swiped up");
+          this.hidden();
+        } else {
+          // swiped down
+          console.log("swiped down");
+        }
+      }
+
+      initialX = null;
+      initialY = null;
+
+      e.preventDefault();
+    };
   }
 }
