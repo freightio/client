@@ -22,7 +22,6 @@ export class IntineryPage implements OnInit {
   constructor(private router: Router) { }
 
   ngOnInit() {
-    this.listenSwipe();
     this.map = new AMap.Map(this.map_container.nativeElement, {
       view: new AMap.View2D({
         zoom: 11,
@@ -93,7 +92,7 @@ export class IntineryPage implements OnInit {
     this.hidden();
   }
 
-  listenSwipe() {
+  ionViewDidEnter() {
     document.getElementById('detail_order').addEventListener("touchstart", startTouch, false);
     document.getElementById('detail_order').addEventListener("touchmove", moveTouch, false);
 
@@ -107,7 +106,6 @@ export class IntineryPage implements OnInit {
     };
 
     function moveTouch(e) {
-      e.preventDefault();
       if (initialX === null) {
         return;
       }
