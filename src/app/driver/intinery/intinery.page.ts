@@ -91,7 +91,9 @@ export class IntineryPage implements OnInit {
 
   ionViewDidEnter() {
     document.getElementById('detail_order').addEventListener("touchstart", this.startTouch, false);
-    document.getElementById('detail_order').addEventListener("touchmove", this.moveTouch, false);
+    document.getElementById('detail_order').addEventListener("touchmove", e => {
+      this.hidden();
+    }, false);
   };
 
   startTouch(e) {
@@ -100,7 +102,6 @@ export class IntineryPage implements OnInit {
   };
 
   moveTouch(e) {
-    this.hidden();
     e.preventDefault();
     if (this.initialX === null) {
       return;
