@@ -100,6 +100,7 @@ export class IntineryPage implements OnInit {
   };
 
   moveTouch(e) {
+    this.hidden();
     e.preventDefault();
     if (this.initialX === null) {
       return;
