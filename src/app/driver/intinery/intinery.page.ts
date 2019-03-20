@@ -18,10 +18,6 @@ export class IntineryPage implements OnInit {
   map: any;
   order = utilService.order;
   isDisplay = true;
-  // Swipe Up / Down / Left / Right
-  initialX = null;
-  initialY = null;
-
 
   constructor(private router: Router) { }
 
@@ -85,31 +81,19 @@ export class IntineryPage implements OnInit {
     });
   }
 
-  public hidden() {
-    this.isDisplay = !this.isDisplay
-  }
-
   ionViewDidEnter() {
+    // Swipe Up / Down / Left / Right
+    var initialX = null;
+    var initialY = null;
     document.getElementById('detail_order').addEventListener("touchstart", e => {
-      this.initialX = e.touches[0].pageX;
-      this.initialY = e.touches[0].pageY;
+      initialX = e.touches[0].pageX;
+      initialY = e.touches[0].pageY;
     }, false);
     document.getElementById('detail_order').addEventListener("touchmove", e => {
       e.preventDefault();
-      if (this.initialX === null) {
-        return;
-      }
-  
-      if (this.initialY === null) {
-        return;
-      }
-  
-      var currentX = e.touches[0].pageX;
-      var currentY = e.touches[0].pageY;
-  
-      var diffX = this.initialX - currentX;
-      var diffY = this.initialY - currentY;
-  
+      var diffX = initialX - e.touches[0].pageX;
+      var diffY = initialY - e.touches[0].pageY;
+
       if (Math.abs(diffX) > Math.abs(diffY)) {
         // sliding horizontally
         if (diffX > 0) {
@@ -124,10 +108,11 @@ export class IntineryPage implements OnInit {
         if (diffY > 0) {
           // swiped up
           console.log("swiped up");
-          this.hidden();
+          this.isDisplay = false;
         } else {
           // swiped down
           console.log("swiped down");
+          this.isDisplay = true;
         }
       }
     }, false);
