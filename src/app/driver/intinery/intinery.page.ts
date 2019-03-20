@@ -90,52 +90,46 @@ export class IntineryPage implements OnInit {
   }
 
   ionViewDidEnter() {
-    document.getElementById('detail_order').addEventListener("touchstart", this.startTouch, false);
+    document.getElementById('detail_order').addEventListener("touchstart", e => {
+      this.initialX = e.touches[0].pageX;
+      this.initialY = e.touches[0].pageY;
+    }, false);
     document.getElementById('detail_order').addEventListener("touchmove", e => {
-      this.hidden();
+      e.preventDefault();
+      if (this.initialX === null) {
+        return;
+      }
+  
+      if (this.initialY === null) {
+        return;
+      }
+  
+      var currentX = e.touches[0].pageX;
+      var currentY = e.touches[0].pageY;
+  
+      var diffX = this.initialX - currentX;
+      var diffY = this.initialY - currentY;
+  
+      if (Math.abs(diffX) > Math.abs(diffY)) {
+        // sliding horizontally
+        if (diffX > 0) {
+          // swiped left
+          console.log("swiped left");
+        } else {
+          // swiped right
+          console.log("swiped right");
+        }
+      } else {
+        // sliding vertically
+        if (diffY > 0) {
+          // swiped up
+          console.log("swiped up");
+          this.hidden();
+        } else {
+          // swiped down
+          console.log("swiped down");
+        }
+      }
     }, false);
   };
-
-  startTouch(e) {
-    this.initialX = e.touches[0].pageX;
-    this.initialY = e.touches[0].pageY;
-  };
-
-  moveTouch(e) {
-    e.preventDefault();
-    if (this.initialX === null) {
-      return;
-    }
-
-    if (this.initialY === null) {
-      return;
-    }
-
-    var currentX = e.touches[0].pageX;
-    var currentY = e.touches[0].pageY;
-
-    var diffX = this.initialX - currentX;
-    var diffY = this.initialY - currentY;
-
-    if (Math.abs(diffX) > Math.abs(diffY)) {
-      // sliding horizontally
-      if (diffX > 0) {
-        // swiped left
-        console.log("swiped left");
-      } else {
-        // swiped right
-        console.log("swiped right");
-      }
-    } else {
-      // sliding vertically
-      if (diffY > 0) {
-        // swiped up
-        console.log("swiped up");
-        this.hidden();
-      } else {
-        // swiped down
-        console.log("swiped down");
-      }
-    }
-  }
 }
