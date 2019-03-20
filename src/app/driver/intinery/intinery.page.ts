@@ -95,11 +95,12 @@ export class IntineryPage implements OnInit {
   };
 
   startTouch(e) {
-    this.initialX = e.touches[0].clientX;
-    this.initialY = e.touches[0].clientY;
+    this.initialX = e.touches[0].pageX;
+    this.initialY = e.touches[0].pageY;
   };
 
   moveTouch(e) {
+    e.preventDefault();
     if (this.initialX === null) {
       return;
     }
@@ -108,8 +109,8 @@ export class IntineryPage implements OnInit {
       return;
     }
 
-    var currentX = e.touches[0].clientX;
-    var currentY = e.touches[0].clientY;
+    var currentX = e.touches[0].pageX;
+    var currentY = e.touches[0].pageY;
 
     var diffX = this.initialX - currentX;
     var diffY = this.initialY - currentY;
@@ -134,10 +135,5 @@ export class IntineryPage implements OnInit {
         console.log("swiped down");
       }
     }
-
-    this.initialX = null;
-    this.initialY = null;
-
-    e.preventDefault();
   }
 }
