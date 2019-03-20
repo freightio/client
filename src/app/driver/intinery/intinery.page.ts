@@ -81,14 +81,18 @@ export class IntineryPage implements OnInit {
     });
   }
 
+  display() {
+    this.isDisplay = true;
+  }
+
   ionViewDidEnter() {
     // Swipe Up / Down / Left / Right
-    var initialX = null;
-    var initialY = null;
+    var initialX;
+    var initialY;
     document.getElementById('detail_order').addEventListener("touchstart", e => {
       initialX = e.touches[0].pageX;
       initialY = e.touches[0].pageY;
-    }, false);
+    });
     document.getElementById('detail_order').addEventListener("touchmove", e => {
       e.preventDefault();
       var diffX = initialX - e.touches[0].pageX;
@@ -98,23 +102,19 @@ export class IntineryPage implements OnInit {
         // sliding horizontally
         if (diffX > 0) {
           // swiped left
-          console.log("swiped left");
         } else {
           // swiped right
-          console.log("swiped right");
         }
       } else {
         // sliding vertically
         if (diffY > 0) {
           // swiped up
-          console.log("swiped up");
           this.isDisplay = false;
         } else {
           // swiped down
-          console.log("swiped down");
           this.isDisplay = true;
         }
       }
-    }, false);
+    });
   };
 }
