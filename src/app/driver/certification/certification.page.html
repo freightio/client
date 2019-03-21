@@ -44,7 +44,7 @@
         {{certification.name}}
       </ion-col>
       <ion-col text-center>
-        <img [src]="certification.imagedata" height="150px" width="150px">
+        <img [src]="certification.imagedata" (click)="viewPhoto(certification)" height="150px" width="150px">
       </ion-col>
       <ion-col text-center>
         <div *ngIf="certification.status != '通过'">

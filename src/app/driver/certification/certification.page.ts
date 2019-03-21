@@ -1,5 +1,6 @@
 import * as grpcWeb from 'grpc-web';
 import { Component, OnInit } from '@angular/core';
+import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { Certification } from '../../../sdk/user_pb';
 import { utilService, apiService } from '../../providers/util.service';
@@ -17,7 +18,9 @@ export class CertificationPage implements OnInit {
     mediaType: this.camera.MediaType.PICTURE
   }
 
-  constructor(private camera: Camera) { }
+  constructor(
+    private camera: Camera,
+    private photoViewer: PhotoViewer) { }
 
   ngOnInit() {
     var i = 0;
@@ -69,5 +72,9 @@ export class CertificationPage implements OnInit {
     }, (err) => {
       utilService.alert(JSON.stringify(err));
     });
+  }
+
+  viewPhoto(certification: Certification.AsObject) {
+    this.photoViewer.show(certification.imagedata);
   }
 }

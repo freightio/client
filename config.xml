@@ -92,5 +92,6 @@
         <variable name="SANDBOX_MODE" value="false" />
     </plugin>
     <plugin name="cordova-plugin-qrscanner" spec="2.6.0" />
+    <plugin name="com-sarriaroman-photoviewer" spec="1.2.1" />
     <engine name="android" spec="7.1.4" />
 </widget>
