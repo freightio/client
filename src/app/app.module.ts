@@ -9,6 +9,7 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { QRScanner } from '@ionic-native/qr-scanner/ngx';
 import { Camera } from '@ionic-native/camera/ngx';
 import { Contacts } from '@ionic-native/contacts/ngx';
+import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
 import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -33,6 +34,7 @@ import { OrderComponent } from './modal/order/order.component';
     Contacts,
     Camera,
     IonSlides,
+    PhotoViewer,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]
