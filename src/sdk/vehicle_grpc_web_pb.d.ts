@@ -6,8 +6,8 @@ import {Vehicle} from './vehicle_pb';
 
 export class VehiclesClient {
   constructor (hostname: string,
-               credentials: null | { [index: string]: string; },
-               options: null | { [index: string]: string; });
+               credentials?: null | { [index: string]: string; },
+               options?: null | { [index: string]: string; });
 
   list(
     request: google_protobuf_empty_pb.Empty,
@@ -18,8 +18,8 @@ export class VehiclesClient {
 
 export class VehiclesPromiseClient {
   constructor (hostname: string,
-               credentials: null | { [index: string]: string; },
-               options: null | { [index: string]: string; });
+               credentials?: null | { [index: string]: string; },
+               options?: null | { [index: string]: string; });
 
   list(
     request: google_protobuf_empty_pb.Empty,

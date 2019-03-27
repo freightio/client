@@ -10,8 +10,8 @@ import {
 
 export class UsersClient {
   constructor (hostname: string,
-               credentials: null | { [index: string]: string; },
-               options: null | { [index: string]: string; });
+               credentials?: null | { [index: string]: string; },
+               options?: null | { [index: string]: string; });
 
   add(
     request: User,
@@ -64,8 +64,8 @@ export class UsersClient {
 
 export class CertificationsClient {
   constructor (hostname: string,
-               credentials: null | { [index: string]: string; },
-               options: null | { [index: string]: string; });
+               credentials?: null | { [index: string]: string; },
+               options?: null | { [index: string]: string; });
 
   add(
     request: Certification,
@@ -97,8 +97,8 @@ export class CertificationsClient {
 
 export class UsersPromiseClient {
   constructor (hostname: string,
-               credentials: null | { [index: string]: string; },
-               options: null | { [index: string]: string; });
+               credentials?: null | { [index: string]: string; },
+               options?: null | { [index: string]: string; });
 
   add(
     request: User,
@@ -139,8 +139,8 @@ export class UsersPromiseClient {
 
 export class CertificationsPromiseClient {
   constructor (hostname: string,
-               credentials: null | { [index: string]: string; },
-               options: null | { [index: string]: string; });
+               credentials?: null | { [index: string]: string; },
+               options?: null | { [index: string]: string; });
 
   add(
     request: Certification,

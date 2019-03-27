@@ -7,8 +7,8 @@ import {Account} from './wallet_pb';
 
 export class WalletsClient {
   constructor (hostname: string,
-               credentials: null | { [index: string]: string; },
-               options: null | { [index: string]: string; });
+               credentials?: null | { [index: string]: string; },
+               options?: null | { [index: string]: string; });
 
   add(
     request: Account,
@@ -33,8 +33,8 @@ export class WalletsClient {
 
 export class WalletsPromiseClient {
   constructor (hostname: string,
-               credentials: null | { [index: string]: string; },
-               options: null | { [index: string]: string; });
+               credentials?: null | { [index: string]: string; },
+               options?: null | { [index: string]: string; });
 
   add(
     request: Account,

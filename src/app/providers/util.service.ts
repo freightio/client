@@ -43,11 +43,11 @@ export class UtilService {
 }
 
 export class ApiService {
-  userClient = new UsersClient(environment.apiUrl, null, null);
-  ordersClient = new OrdersClient(environment.apiUrl, null, null);
-  walletsClient = new WalletsClient(environment.apiUrl, null, null);
-  vehiclesClient = new VehiclesClient(environment.apiUrl, null, null);
-  certificationsClient = new CertificationsClient(environment.apiUrl, null, null);
+  userClient = new UsersClient(environment.apiUrl);
+  ordersClient = new OrdersClient(environment.apiUrl);
+  walletsClient = new WalletsClient(environment.apiUrl);
+  vehiclesClient = new VehiclesClient(environment.apiUrl);
+  certificationsClient = new CertificationsClient(environment.apiUrl);
 
   metaData = { 'authorization-token': 'admin' };
 }

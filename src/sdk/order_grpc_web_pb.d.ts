@@ -11,8 +11,8 @@ import {
 
 export class OrdersClient {
   constructor (hostname: string,
-               credentials: null | { [index: string]: string; },
-               options: null | { [index: string]: string; });
+               credentials?: null | { [index: string]: string; },
+               options?: null | { [index: string]: string; });
 
   add(
     request: Order,
@@ -63,8 +63,8 @@ export class OrdersClient {
 
 export class OrdersPromiseClient {
   constructor (hostname: string,
-               credentials: null | { [index: string]: string; },
-               options: null | { [index: string]: string; });
+               credentials?: null | { [index: string]: string; },
+               options?: null | { [index: string]: string; });
 
   add(
     request: Order,
